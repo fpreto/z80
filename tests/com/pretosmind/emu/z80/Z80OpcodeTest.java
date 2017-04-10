@@ -220,7 +220,31 @@ public class Z80OpcodeTest {
 		assertZeroCycleBalance();
 	}
 	
+	@Test
+	public void ld_b_n() {
+		memory.put(0x06, 0x01); /* LD B, 01h */
+		memory.put(0x06, 0xFF); /* LD B, ffh */
+		memory.put(0x06, 0x00); /* LD B, 00h */
+		
+		z80.execute(7);
+		assertRegister(B, 0x01);
+		assertPC(0x02);
+		assertFlagUnchanged();
+		assertZeroCycleBalance();
+		
+		z80.execute(7);
+		assertRegister(B, 0xFF);
+		assertPC(0x04);
+		assertFlagUnchanged();
+		assertZeroCycleBalance();
+		
+		z80.execute(7);
+		assertRegister(B, 0x00);
+		assertPC(0x06);
+		assertFlagUnchanged();
+		assertZeroCycleBalance();
 	
+	}
 	
 	@Test
 	public void rlca() {
