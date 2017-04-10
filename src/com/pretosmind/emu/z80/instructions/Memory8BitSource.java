@@ -1,0 +1,35 @@
+package com.pretosmind.emu.z80.instructions;
+
+import com.pretosmind.emu.z80.mmu.Memory;
+import com.pretosmind.emu.z80.registers.Register;
+import com.pretosmind.emu.z80.registers.RegisterUtils;
+
+/**
+ * Read 16-bit from PC+1 
+ * 
+ * @author fpreto
+ *
+ */
+public final class Memory8BitSource implements OpCodeDataSource {
+	
+	private final Register pc;
+	private final Memory memory;
+	
+	public Memory8BitSource(Register pc, Memory memory) {
+		this.pc = pc;
+		this.memory = memory;
+	}
+
+	@Override
+	public int read() {
+		int value = memory.read(pc.read());
+		RegisterUtils.increment(pc);
+		return value;
+	}
+
+	@Override
+	public int cyclesCost() {
+		return 3;
+	}
+
+}
