@@ -6,10 +6,10 @@ import com.pretosmind.emu.z80.registers.Flags;
 
 public class Dec extends AbstractOpCode {
 	
-	private final OpCodeDataTarget target;
-	private final OpCodeDataSource source;
+	private final OpcodeReference target;
+	private final OpcodeReference source;
 
-	public Dec(State state, OpCodeDataTarget target, OpCodeDataSource source) {
+	public Dec(State state, OpcodeReference target, OpcodeReference source) {
 		super(state);
 		this.target = target;
 		this.source = source;

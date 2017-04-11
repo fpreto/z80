@@ -1,6 +1,5 @@
 package com.pretosmind.emu.z80.instructions;
 
-import com.pretosmind.emu.z80.Z80Utils;
 import com.pretosmind.emu.z80.mmu.Memory;
 import com.pretosmind.emu.z80.registers.Register;
 import com.pretosmind.emu.z80.registers.RegisterUtils;
@@ -11,26 +10,32 @@ import com.pretosmind.emu.z80.registers.RegisterUtils;
  * @author fpreto
  *
  */
-public final class Memory16BitSource implements OpCodeDataSource {
+public final class Memory8BitReference implements OpcodeReference {
 	
 	private final Register pc;
 	private final Memory memory;
 	
-	public Memory16BitSource(Register pc, Memory memory) {
+	public Memory8BitReference(Register pc, Memory memory) {
 		this.pc = pc;
 		this.memory = memory;
 	}
 
 	@Override
 	public int read() {
-		int value = Z80Utils.read16FromMemory(pc.read(), memory);
-		RegisterUtils.increment(pc, 2);
+		int value = memory.read(pc.read());
+		RegisterUtils.increment(pc);
 		return value;
+	}
+	
+	@Override
+	public void write(int value) {
+		memory.write(pc.read(), value);
+		RegisterUtils.increment(pc);
 	}
 
 	@Override
 	public int cyclesCost() {
-		return 3 + 3;
+		return 3;
 	}
 
 }

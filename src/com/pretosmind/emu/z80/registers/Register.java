@@ -1,14 +1,13 @@
 package com.pretosmind.emu.z80.registers;
 
-import com.pretosmind.emu.z80.instructions.OpCodeDataSource;
-import com.pretosmind.emu.z80.instructions.OpCodeDataTarget;
+import com.pretosmind.emu.z80.instructions.OpcodeReference;
 
 /**
  * 8-bit or 16-bit register that can be redden and written.
  * @author fpreto
  *
  */
-public interface Register extends OpCodeDataSource, OpCodeDataTarget {
+public interface Register extends OpcodeReference {
 	
 	/**
 	 * Read the data from register

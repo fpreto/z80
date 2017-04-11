@@ -249,9 +249,9 @@ public class Z80OpcodeTest {
 	@Test
 	public void rlca() {
 		memory.put(0x3E, 0x01); /* LD A, 01h */
-		memory.put(0x07); /* RCA B */
+		memory.put(0x07); /* RLCA */
 		memory.put(0x3E, 0x80); /* LD A, 80h */
-		memory.put(0x07); /* RCA B */
+		memory.put(0x07); /* RLCA */
 		
 		// 01h  -> 02h
 		z80.execute(7);
@@ -273,6 +273,50 @@ public class Z80OpcodeTest {
 		assertFlag(CARRY_FLAG, NEGATIVE_FLAG | HALF_CARRY_FLAG,  NEGATIVE_FLAG | ZERO_FLAG | PARITY_FLAG | SIGNIFICANT_FLAG , 0x01 );
 		assertZeroCycleBalance();
 		
+		
+	}
+	
+	@Test
+	public void ex_af_af() {
+		memory.put(0x06, 0x00); /* LD B, 00h */
+		memory.put(0x05); /* DEC B */
+		memory.put(0x3E, 0x80); /* LD A, 80h */
+		memory.put(0x08); /* EX AF, AF' */
+		memory.put(0x3E, 0xAB); /* LD A, ABh */
+		memory.put(0x08); /* EX AF, AF' */
+		memory.put(0x08); /* EX AF, AF' */
+		
+		z80.execute(18);
+		assertRegister(B, 0xFF);
+		assertRegister(F, 0xBA);
+		assertRegister(A, 0x80);
+		assertPC(0x05);
+		assertZeroCycleBalance();
+
+		z80.execute(4);
+		assertPC(0x06);
+		assertZeroCycleBalance();
+		
+		z80.execute(7);
+		assertRegister(A, 0xAB);
+		assertRegister(F, 0x00);
+		assertRegister(B, 0xFF);
+		assertPC(0x08);
+		assertZeroCycleBalance();
+		
+		z80.execute(4);
+		assertRegister(A, 0x80);
+		assertRegister(F, 0xBA);
+		assertRegister(B, 0xFF);
+		assertPC(0x09);
+		assertZeroCycleBalance();
+		
+		z80.execute(4);
+		assertRegister(A, 0xAB);
+		assertRegister(F, 0x00);
+		assertRegister(B, 0xFF);
+		assertPC(0x0A);
+		assertZeroCycleBalance();
 		
 	}
 	

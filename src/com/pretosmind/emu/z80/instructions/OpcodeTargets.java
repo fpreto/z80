@@ -14,13 +14,24 @@ public final class OpcodeTargets {
 		this.memory = memory;
 	}
 	
-	public OpCodeDataTarget r(RegisterName name) {
+	public OpcodeReference r(RegisterName name) {
 		return state.getRegister(name);
 	}
 	
-	public OpCodeDataTarget iRR(RegisterName name) {
-		return new IndirectMemory8BitTarget(state.getRegister(RegisterName.BC), memory);
+	public OpcodeReference _r(RegisterName name) {
+		return state.getRegisterAlternate(name);
 	}
 	
+	public OpcodeReference iRR(RegisterName name) {
+		return new IndirectMemory8BitReference(state.getRegister(RegisterName.BC), memory);
+	}
+	
+	public OpcodeReference n() {
+		return new Memory8BitReference(state.getRegister(RegisterName.PC), memory);
+	}
+	
+	public OpcodeReference nn() {
+		return new Memory16BitReference(state.getRegister(RegisterName.PC), memory);
+	}
 	
 }

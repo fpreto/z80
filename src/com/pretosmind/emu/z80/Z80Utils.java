@@ -53,6 +53,16 @@ public final class Z80Utils {
 	public final static int read16FromMemory(int address, Memory memory) {
 		return memory.read(address) | (memory.read(address + 1) << 8);
 	}
+	/**
+	 * Write 16 bytes of data to memory
+	 * @param address pointer
+	 * @param value 16-bit value
+	 * @param memory memory adapter
+	 */
+	public final static void write16ToMemory(int address, int value, Memory memory) {
+		memory.write(address, Z80Utils.mask8bit(value));
+		memory.write(address + 1, Z80Utils.high8bits(value));
+	}
 	
 	
 	

@@ -6,10 +6,10 @@ import com.pretosmind.emu.z80.registers.Flags;
 
 public class Inc extends AbstractOpCode {
 	
-	private final OpCodeDataTarget target;
-	private final OpCodeDataSource source;
+	private final OpcodeReference target;
+	private final OpcodeReference source;
 
-	public Inc(State state, OpCodeDataTarget target, OpCodeDataSource source) {
+	public Inc(State state, OpcodeReference target, OpcodeReference source) {
 		super(state);
 		this.target = target;
 		this.source = source;

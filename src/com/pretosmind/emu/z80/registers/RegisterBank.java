@@ -6,6 +6,10 @@ public class RegisterBank {
 	private final RegisterPair bc;
 	private final RegisterPair de;
 	private final RegisterPair hl;
+	private final RegisterPair _af;
+	private final RegisterPair _bc;
+	private final RegisterPair _de;
+	private final RegisterPair _hl;
 	private final Register pc;
 	private final Register sp;
 	private final Register ix;
@@ -16,6 +20,10 @@ public class RegisterBank {
 		this.bc = new Composed16BitRegister();
 		this.de = new Composed16BitRegister();
 		this.hl = new Composed16BitRegister();
+		this._af = new Composed16BitRegister();
+		this._bc = new Composed16BitRegister();
+		this._de = new Composed16BitRegister();
+		this._hl = new Composed16BitRegister();
 		this.pc = new Plain16BitRegister();
 		this.sp = new Plain16BitRegister();
 		this.ix = new Plain16BitRegister();
@@ -56,6 +64,21 @@ public class RegisterBank {
 			return this.ix;
 		case IY:
 			return this.iy;
+		default:
+			return null;
+		}
+	}
+	
+	public Register getAlternate(RegisterName name) {
+		switch (name) {
+		case AF:
+			return this._af;
+		case BC:
+			return this._bc;
+		case DE:
+			return this._de;
+		case HL:
+			return this._hl;
 		default:
 			return null;
 		}

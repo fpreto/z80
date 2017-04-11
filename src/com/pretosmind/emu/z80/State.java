@@ -16,4 +16,8 @@ public class State {
 		return this.registers.get(name);
 	}
 	
+	public Register getRegisterAlternate(RegisterName name) {
+		return this.registers.getAlternate(name);
+	}
+	
 }
