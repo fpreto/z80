@@ -2,7 +2,9 @@ package com.pretosmind.emu.z80;
 
 import static com.pretosmind.emu.z80.registers.RegisterName.*;
 
+import com.pretosmind.emu.z80.instructions.Add16;
 import com.pretosmind.emu.z80.instructions.Dec;
+import com.pretosmind.emu.z80.instructions.Dec16;
 import com.pretosmind.emu.z80.instructions.Ex;
 import com.pretosmind.emu.z80.instructions.Inc;
 import com.pretosmind.emu.z80.instructions.Inc16;
@@ -74,17 +76,17 @@ public class Z80 {
 		opcodeLookupTable[0x06] = new Ld(state, opt.r(B), opt.n());
 		opcodeLookupTable[0x07] = new RLCA(state, opt.r(A), opt.r(A));
 		opcodeLookupTable[0x08] = new Ex(state, opt.r(AF), opt._r(AF));
+		opcodeLookupTable[0x09] = new Add16(state, opt.r(HL), opt.r(BC));
+		opcodeLookupTable[0x0A] = new Ld(state, opt.r(A), opt.iRR(BC));
+		opcodeLookupTable[0x0B] = new Dec16(state, opt.r(BC), opt.r(BC));
+		opcodeLookupTable[0x0C] = new Inc(state, opt.r(C), opt.r(C));
+		opcodeLookupTable[0x0D] = new Dec(state, opt.r(C), opt.r(C));
+		opcodeLookupTable[0x0E] = new Ld(state, opt.r(C), opt.n());
 
 		opcodeLookupTable[0x21] = new Ld(state, opt.r(HL), opt.nn());
 		opcodeLookupTable[0x3E] = new Ld(state, opt.r(A), opt.n());
 		
 		/*	
-09	ADD	HL,BC	
-0A	LD	A,(BC)	
-0B	DEC	BC	
-0C	INC	C	
-0D	DEC	C	
-0E	LD	C,n	
 0F	RRCA		
 10	DJNZ	e	
 11	LD	DE,nn	

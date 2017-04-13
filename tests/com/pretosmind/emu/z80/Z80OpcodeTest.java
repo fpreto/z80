@@ -35,7 +35,7 @@ public class Z80OpcodeTest {
 		this.state = null;
 		this.memory = null;
 	}
-
+	
 	@Test
 	public void nopTest() {
 		

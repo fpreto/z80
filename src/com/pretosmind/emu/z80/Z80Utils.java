@@ -64,6 +64,8 @@ public final class Z80Utils {
 		memory.write(address + 1, Z80Utils.high8bits(value));
 	}
 	
-	
+	public final static int twoCompliment8bit(int e) {
+		return (byte)e;
+	}
 	
 }
