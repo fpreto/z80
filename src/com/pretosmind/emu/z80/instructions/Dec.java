@@ -7,12 +7,10 @@ import com.pretosmind.emu.z80.registers.Flags;
 public class Dec extends AbstractOpCode {
 	
 	private final OpcodeReference target;
-	private final OpcodeReference source;
 
-	public Dec(State state, OpcodeReference target, OpcodeReference source) {
+	public Dec(State state, OpcodeReference target) {
 		super(state);
 		this.target = target;
-		this.source = source;
 	}
 
 	@Override
@@ -20,7 +18,7 @@ public class Dec extends AbstractOpCode {
 		
 		incrementPC();
 		
-		final int value = source.read();
+		final int value = target.read();
 		final int result = Z80Utils.mask8bit(value - 1);
 		target.write(result);
 		
@@ -30,7 +28,7 @@ public class Dec extends AbstractOpCode {
 		Flags.setFlag(flag, Flags.PARITY_FLAG, (result == 0x7F));
 		Flags.setFlag(flag, Flags.NEGATIVE_FLAG, true);
 		
-		return 4 + source.cyclesCost() + target.cyclesCost();
+		return 4 + target.cyclesCost() + target.cyclesCost();
 	}
 
 }

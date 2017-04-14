@@ -6,12 +6,10 @@ import com.pretosmind.emu.z80.Z80Utils;
 public class Inc16 extends AbstractOpCode {
 	
 	private final OpcodeReference target;
-	private final OpcodeReference source;
 
-	public Inc16(State state, OpcodeReference target, OpcodeReference source) {
+	public Inc16(State state, OpcodeReference target) {
 		super(state);
 		this.target = target;
-		this.source = source;
 	}
 
 	@Override
@@ -19,11 +17,11 @@ public class Inc16 extends AbstractOpCode {
 		
 		incrementPC();
 		
-		int value = source.read();
-		value = Z80Utils.mask16bit(value + 1);
-		target.write(value);
+		final int value = target.read();
+		final int result = Z80Utils.mask16bit(value + 1);
+		target.write(result);
 		
-		return 6 + source.cyclesCost() + target.cyclesCost();
+		return 6 + target.cyclesCost() + target.cyclesCost();
 	}
 
 }

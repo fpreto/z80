@@ -3,6 +3,7 @@ package com.pretosmind.emu.z80;
 import static com.pretosmind.emu.z80.registers.RegisterName.*;
 
 import com.pretosmind.emu.z80.instructions.Add16;
+import com.pretosmind.emu.z80.instructions.DJNZ;
 import com.pretosmind.emu.z80.instructions.Dec;
 import com.pretosmind.emu.z80.instructions.Dec16;
 import com.pretosmind.emu.z80.instructions.Ex;
@@ -12,7 +13,9 @@ import com.pretosmind.emu.z80.instructions.Ld;
 import com.pretosmind.emu.z80.instructions.Nop;
 import com.pretosmind.emu.z80.instructions.OpCode;
 import com.pretosmind.emu.z80.instructions.OpcodeTargets;
+import com.pretosmind.emu.z80.instructions.RL;
 import com.pretosmind.emu.z80.instructions.RLCA;
+import com.pretosmind.emu.z80.instructions.RRC;
 import com.pretosmind.emu.z80.mmu.Memory;
 import com.pretosmind.emu.z80.registers.Register;
 
@@ -70,32 +73,33 @@ public class Z80 {
 		opcodeLookupTable[0x00] = new Nop(state);
 		opcodeLookupTable[0x01] = new Ld(state, opt.r(BC), opt.nn());
 		opcodeLookupTable[0x02] = new Ld(state, opt.iRR(BC), opt.r(A));
-		opcodeLookupTable[0x03] = new Inc16(state, opt.r(HL), opt.r(HL));
-		opcodeLookupTable[0x04] = new Inc(state, opt.r(B), opt.r(B));
-		opcodeLookupTable[0x05] = new Dec(state, opt.r(B), opt.r(B));
+		opcodeLookupTable[0x03] = new Inc16(state, opt.r(HL));
+		opcodeLookupTable[0x04] = new Inc(state, opt.r(B));
+		opcodeLookupTable[0x05] = new Dec(state, opt.r(B));
 		opcodeLookupTable[0x06] = new Ld(state, opt.r(B), opt.n());
 		opcodeLookupTable[0x07] = new RLCA(state, opt.r(A), opt.r(A));
 		opcodeLookupTable[0x08] = new Ex(state, opt.r(AF), opt._r(AF));
 		opcodeLookupTable[0x09] = new Add16(state, opt.r(HL), opt.r(BC));
 		opcodeLookupTable[0x0A] = new Ld(state, opt.r(A), opt.iRR(BC));
-		opcodeLookupTable[0x0B] = new Dec16(state, opt.r(BC), opt.r(BC));
-		opcodeLookupTable[0x0C] = new Inc(state, opt.r(C), opt.r(C));
-		opcodeLookupTable[0x0D] = new Dec(state, opt.r(C), opt.r(C));
+		opcodeLookupTable[0x0B] = new Dec16(state, opt.r(BC));
+		opcodeLookupTable[0x0C] = new Inc(state, opt.r(C));
+		opcodeLookupTable[0x0D] = new Dec(state, opt.r(C));
 		opcodeLookupTable[0x0E] = new Ld(state, opt.r(C), opt.n());
-
+		opcodeLookupTable[0x0E] = new RRC(state, opt.r(A), opt.r(A));
+		opcodeLookupTable[0x10] = new DJNZ(state, opt.r(B), opt.n());
+		opcodeLookupTable[0x11] = new Ld(state, opt.r(DE), opt.nn());
+		opcodeLookupTable[0x12] = new Ld(state, opt.iRR(DE), opt.r(A));
+		opcodeLookupTable[0x13] = new Inc16(state, opt.r(DE));
+		opcodeLookupTable[0x14] = new Inc(state, opt.r(D));
+		opcodeLookupTable[0x15] = new Dec(state, opt.r(D));
+		opcodeLookupTable[0x16] = new Ld(state, opt.r(D), opt.n());
+		opcodeLookupTable[0x0E] = new RL(state, opt.r(A));
+		
+		
 		opcodeLookupTable[0x21] = new Ld(state, opt.r(HL), opt.nn());
 		opcodeLookupTable[0x3E] = new Ld(state, opt.r(A), opt.n());
 		
 		/*	
-0F	RRCA		
-10	DJNZ	e	
-11	LD	DE,nn	
-12	LD	(DE),A	
-13	INC	DE	
-14	INC	D	
-15	DEC	D	
-16	LD	D,n	
-17	RLA		
 18	JR	e	
 19	ADD	HL,DE	
 1A	LD	A,(DE)	
