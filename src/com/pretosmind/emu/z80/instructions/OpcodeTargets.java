@@ -42,4 +42,8 @@ public final class OpcodeTargets {
 		return new IndirectMemory16BitReference(nn(), memory);
 	}
 	
+	public OpcodeReference inn() {
+		return new IndirectMemory8BitReference(nn(), memory);
+	}
+	
 }
