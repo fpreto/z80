@@ -68,4 +68,19 @@ public final class Z80Utils {
 		return (byte)e;
 	}
 	
+	/**
+	 * Return true if the number of bits on the 8-bit integer is even. False otherwise.
+	 * 
+	 * @param e 8-bit integer
+	 * @return true if even parity
+	 */
+	public final static boolean isEvenParity8bit(int e) {
+		
+		int result = e;
+		result = (result ^ (result >> 1));
+		result = (result ^ (result >> 2));
+		result = (result ^ (result >> 4));
+		return ((result & 0x01) == 0x00);
+	}
+	
 }

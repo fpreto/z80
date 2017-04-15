@@ -26,12 +26,20 @@ public final class OpcodeTargets {
 		return new IndirectMemory8BitReference(state.getRegister(RegisterName.BC), memory);
 	}
 	
+	public OpcodeReference iiRR(RegisterName name) {
+		return new IndirectMemory16BitReference(state.getRegister(RegisterName.BC), memory);
+	}
+	
 	public OpcodeReference n() {
 		return new Memory8BitReference(state.getRegister(RegisterName.PC), memory);
 	}
 	
 	public OpcodeReference nn() {
 		return new Memory16BitReference(state.getRegister(RegisterName.PC), memory);
+	}
+	
+	public OpcodeReference iinn() {
+		return new IndirectMemory16BitReference(nn(), memory);
 	}
 	
 }

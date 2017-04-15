@@ -1,47 +1,30 @@
 package com.pretosmind.emu.z80;
 
-import static org.junit.Assert.*;
+import static com.pretosmind.emu.z80.registers.Flags.CARRY_FLAG;
+import static com.pretosmind.emu.z80.registers.Flags.HALF_CARRY_FLAG;
+import static com.pretosmind.emu.z80.registers.Flags.NEGATIVE_FLAG;
+import static com.pretosmind.emu.z80.registers.Flags.PARITY_FLAG;
+import static com.pretosmind.emu.z80.registers.Flags.SIGNIFICANT_FLAG;
+import static com.pretosmind.emu.z80.registers.Flags.ZERO_FLAG;
+import static com.pretosmind.emu.z80.registers.RegisterName.A;
+import static com.pretosmind.emu.z80.registers.RegisterName.B;
+import static com.pretosmind.emu.z80.registers.RegisterName.BC;
+import static com.pretosmind.emu.z80.registers.RegisterName.F;
+import static com.pretosmind.emu.z80.registers.RegisterName.HL;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import static com.pretosmind.emu.z80.registers.Flags.*;
-import com.pretosmind.emu.z80.registers.Register;
-import com.pretosmind.emu.z80.registers.RegisterName;
-
-import static com.pretosmind.emu.z80.registers.RegisterName.*;
-
-public class Z80OpcodeTest {
-
-	private State state;
-	private MemoryTestHelper memory;
-	private Z80 z80;
-	
-	private int previousFlag;
-	
-	@Before
-	public void setUp() throws Exception {
-		this.memory = new MemoryTestHelper();
-		this.state = new State();
-		this.z80 = new Z80(memory, state);
-		
-		previousFlag = state.getRegister(F).read();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		this.z80 = null;
-		this.state = null;
-		this.memory = null;
-	}
+public class Z80OpcodeTest extends AbstractZ80Test {
 	
 	@Test
 	public void nopTest() {
 		
-		memory.put(0x00); /* NOP */
-		memory.put(0x00); /* NOP */
-		memory.put(0x00); /* NOP */
+		assemble(
+				" nop",
+				" nop",
+				" nop"
+				);
 		
 		z80.execute(4);
 		assertPC(0x01);
@@ -64,7 +47,10 @@ public class Z80OpcodeTest {
 	
 	@Test
 	public void ldBCTest() {
-		memory.put(0x01, 0x34, 0x12); /* LD BC, 0x1234 */
+		
+		assemble(
+				" ld bc, 1234h"
+				);
 		
 		z80.execute(10);
 		assertRegister(BC, 0x1234);
@@ -75,9 +61,12 @@ public class Z80OpcodeTest {
 	
 	@Test
 	public void ld_iBC_A() {
-		memory.put(0x01, 0x34, 0x12); /* LD BC, 0x1234 */
-		memory.put(0x3E, 0x7F); /* LD A, 7F */
-		memory.put(0x02); /* LD (BC), A */
+		
+		assemble(
+				" ld bc, 1234h",
+				" ld a, 7fh",
+				" ld (bc), a"
+				);
 		
 		z80.execute(17);
 		assertRegister(BC, 0x1234);
@@ -98,10 +87,13 @@ public class Z80OpcodeTest {
 	
 	@Test
 	public void inc_hl() {
-		memory.put(0x21, 0x34, 0x12); /* LD HL, 0x1234 */
-		memory.put(0x03); /* INC HL */
-		memory.put(0x21, 0xFF, 0xFF); /* LD HL, 0xFFFF */
-		memory.put(0x03); /* INC HL */
+		
+		assemble(
+				" ld hl, 01234h",
+				" inc hl",
+				" ld hl, 0FFFFh",
+				" inc hl"
+				);
 		
 		z80.execute(10);
 		assertRegister(HL, 0x1234);
@@ -130,16 +122,19 @@ public class Z80OpcodeTest {
 	
 	@Test
 	public void inc_b() {
-		memory.put(0x06, 0x00); /* LD B, 00h */
-		memory.put(0x04); /* INC B */
-		memory.put(0x06, 0x0F); /* LD B, 0Fh */
-		memory.put(0x04); /* INC B */
-		memory.put(0x06, 0x7F); /* LD B, 7fh */
-		memory.put(0x04); /* INC B */
-		memory.put(0x06, 0xFF); /* LD B, ffh */
-		memory.put(0x04); /* INC B */
-		memory.put(0x06, 0xFE); /* LD B, feh */
-		memory.put(0x04); /* INC B */
+		
+		assemble(
+				" ld b, 00h",
+				" inc b",
+				" ld b, 0fh",
+				" inc b",
+				" ld b, 7fh",
+				" inc b",
+				" ld b, 0ffh",
+				" inc b",
+				" ld b, 0feh",
+				" inc b"
+				);
 		
 		z80.execute(7);
 		assertRegister(B, 0x00);
@@ -318,37 +313,6 @@ public class Z80OpcodeTest {
 		assertPC(0x0A);
 		assertZeroCycleBalance();
 		
-	}
-	
-	private void assertPC(int value) {
-		assertRegister(PC, value);
-	}
-	
-	private void assertZeroCycleBalance() {
-		assertEquals(0, z80.getCyclesBalance());
-	}
-	
-	private void assertRegister(RegisterName name, int value) {
-		Register register = state.getRegister(name);
-		assertEquals(value, register.read());
-	}
-	
-	private void assertFlagUnchanged() {
-		int currentFlag = state.getRegister(F).read();
-		assertEquals(previousFlag, currentFlag);
-		previousFlag = currentFlag;
-	}
-	
-	private void assertFlag(int flagsSet, int flagsUnset, int flagsUntouched, int xy) {
-		int currentFlag = state.getRegister(F).read();
-		
-		assertTrue("Invalid flags. Missing required set flags. F=" + Integer.toBinaryString(currentFlag), ((currentFlag & flagsSet) == flagsSet));
-		assertTrue("Invalid flags. Flags set while required to not be. F=" + Integer.toBinaryString(currentFlag), ((currentFlag & flagsUnset) == 0));
-		assertTrue("Invalid flags. Flags change while required to be preserved. F=" + Integer.toBinaryString(currentFlag), ((currentFlag & flagsUntouched) == (previousFlag & flagsUntouched)));
-		assertTrue("Invalid flags. XY not properly set. F=" + Integer.toBinaryString(currentFlag), ((currentFlag & (X_FLAG | Y_FLAG)) == (xy & (X_FLAG | Y_FLAG))));
-		
-		
-		previousFlag = currentFlag;
 	}
 
 }

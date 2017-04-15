@@ -37,5 +37,11 @@ public final class MemoryTestHelper implements Memory {
 			write(putAt++, d);
 		}
 	}
+	
+	public void load(byte[] data) {
+		for (byte b : data) {
+			put(((int)b) & 0xFF);
+		}
+	}
 
 }
