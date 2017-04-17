@@ -2,6 +2,7 @@ package com.pretosmind.emu.z80;
 
 import static com.pretosmind.emu.z80.registers.RegisterName.*;
 
+import com.pretosmind.emu.z80.instructions.Add;
 import com.pretosmind.emu.z80.instructions.Add16;
 import com.pretosmind.emu.z80.instructions.CCF;
 import com.pretosmind.emu.z80.instructions.CPL;
@@ -214,16 +215,16 @@ public class Z80 {
 		opcodeLookupTable[0x7D] = new Ld(state, opt.r(A), opt.r(L));
 		opcodeLookupTable[0x7E] = new Ld(state, opt.r(A), opt.iRR(HL));
 		opcodeLookupTable[0x7F] = new Ld(state, opt.r(A), opt.r(A));
+		opcodeLookupTable[0x80] = new Add(state, opt.r(A), opt.r(B));
+		opcodeLookupTable[0x81] = new Add(state, opt.r(A), opt.r(C));
+		opcodeLookupTable[0x82] = new Add(state, opt.r(A), opt.r(D));
+		opcodeLookupTable[0x83] = new Add(state, opt.r(A), opt.r(E));
+		opcodeLookupTable[0x84] = new Add(state, opt.r(A), opt.r(H));
+		opcodeLookupTable[0x85] = new Add(state, opt.r(A), opt.r(L));
+		opcodeLookupTable[0x86] = new Add(state, opt.r(A), opt.iRR(HL));
+		opcodeLookupTable[0x87] = new Add(state, opt.r(A), opt.r(A));
 		
 		/*	
-80	ADD	A,B	
-81	ADD	A,C	
-82	ADD	A,D	
-83	ADD	A,E	
-84	ADD	A,H	
-85	ADD	A,L	
-86	ADD	A,(HL)	
-87	ADD	A,A	
 88	ADC	A,B	
 89	ADC	A,C	
 8A	ADC	A,D	

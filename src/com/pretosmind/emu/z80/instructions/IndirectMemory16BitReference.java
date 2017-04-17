@@ -2,7 +2,6 @@ package com.pretosmind.emu.z80.instructions;
 
 import com.pretosmind.emu.z80.Z80Utils;
 import com.pretosmind.emu.z80.mmu.Memory;
-import com.pretosmind.emu.z80.registers.Register;
 
 /**
  * Read 8-bit pointed by the 16-bit register address 
