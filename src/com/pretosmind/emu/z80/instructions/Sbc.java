@@ -3,12 +3,12 @@ package com.pretosmind.emu.z80.instructions;
 import com.pretosmind.emu.z80.State;
 import com.pretosmind.emu.z80.registers.Flags;
 
-public class Adc extends AbstractOpCode {
+public class Sbc extends AbstractOpCode {
 
     private final OpcodeReference target;
     private final OpcodeReference source;
 
-    public Adc(State state, OpcodeReference target, OpcodeReference source) {
+    public Sbc(State state, OpcodeReference target, OpcodeReference source) {
         super(state);
         this.target = target;
         this.source = source;
@@ -19,9 +19,9 @@ public class Adc extends AbstractOpCode {
 
         incrementPC();
 
-        final int value1 = source.read();
-        final int value2 = target.read();
-        final int result = value1 + value2 + (Flags.getFlag(flag, Flags.CARRY_FLAG) ? 1 : 0);
+        final int value1 = target.read();
+        final int value2 = source.read();
+        final int result = value1 - value2 - (Flags.getFlag(flag, Flags.CARRY_FLAG) ? 1 : 0);
         final int carry = value1 ^ value2 ^ result;
         target.write(result);
 

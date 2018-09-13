@@ -6,27 +6,27 @@ import com.pretosmind.emu.z80.registers.RegisterName;
 
 public class State {
 
-	private final RegisterBank registers;
-	private boolean halted;
-	
-	public State() {
-		this.registers = new RegisterBank();
-	}
-	
-	public Register getRegister(RegisterName name) {
-		return this.registers.get(name);
-	}
-	
-	public Register getRegisterAlternate(RegisterName name) {
-		return this.registers.getAlternate(name);
-	}
-	
-	public void setHalt(boolean halted) {
-		this.halted = halted;
-	}
-	
-	public boolean isHalted() {
-		return this.halted;
-	}
-	
+    private final RegisterBank registers;
+    private boolean halted;
+
+    public State() {
+        this.registers = new RegisterBank();
+    }
+
+    public Register getRegister(RegisterName name) {
+        return this.registers.get(name);
+    }
+
+    public Register getRegisterAlternate(RegisterName name) {
+        return this.registers.getAlternate(name);
+    }
+
+    public void setHalt(boolean halted) {
+        this.halted = halted;
+    }
+
+    public boolean isHalted() {
+        return this.halted;
+    }
+
 }

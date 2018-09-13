@@ -4,38 +4,38 @@ import com.pretosmind.emu.z80.Z80Utils;
 
 public class Composed16BitRegister implements RegisterPair {
 
-	private final Register high;
-	private final Register low;
-	
-	public Composed16BitRegister() {
-		this.high = new Plain8BitRegister();
-		this.low = new Plain8BitRegister();
-	}
-	
-	@Override
-	public int read() {
-		return Z80Utils.compose16bit(this.high.read(), this.low.read());
-	}
+    private final Register high;
+    private final Register low;
 
-	@Override
-	public void write(int value) {
-		this.high.write(Z80Utils.high8bits(value));
-		this.low.write(Z80Utils.mask8bit(value));
-	}
+    public Composed16BitRegister() {
+        this.high = new Plain8BitRegister();
+        this.low = new Plain8BitRegister();
+    }
 
-	@Override
-	public Register getHigh() {
-		return this.high;
-	}
+    @Override
+    public int read() {
+        return Z80Utils.compose16bit(this.high.read(), this.low.read());
+    }
 
-	@Override
-	public Register getLow() {
-		return this.low;
-	}
-	
-	@Override
-	public int cyclesCost() {
-		return 0;
-	}
+    @Override
+    public void write(int value) {
+        this.high.write(Z80Utils.high8bits(value));
+        this.low.write(Z80Utils.mask8bit(value));
+    }
+
+    @Override
+    public Register getHigh() {
+        return this.high;
+    }
+
+    @Override
+    public Register getLow() {
+        return this.low;
+    }
+
+    @Override
+    public int cyclesCost() {
+        return 0;
+    }
 
 }

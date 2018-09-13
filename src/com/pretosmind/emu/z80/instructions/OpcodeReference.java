@@ -2,10 +2,10 @@ package com.pretosmind.emu.z80.instructions;
 
 public interface OpcodeReference {
 
-	int read();
+    int read();
 
-	void write(int value);
-	
-	int cyclesCost();
-	
+    void write(int value);
+
+    int cyclesCost();
+
 }
