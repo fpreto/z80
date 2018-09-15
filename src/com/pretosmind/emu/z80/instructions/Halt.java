@@ -20,4 +20,8 @@ public class Halt extends AbstractOpCode {
         return 4;
     }
 
+    @Override
+    public String toString() {
+        return "HALT";
+    }
 }

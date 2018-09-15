@@ -29,4 +29,9 @@ public class State {
         return this.halted;
     }
 
+    @Override
+    public String toString() {
+        return "registers="+ registers +
+                ", halted=" + halted;
+    }
 }

@@ -11,6 +11,12 @@ public class Z80 {
 
     private final Memory memory;
     private final OpCode[] opcodeLookupTable;
+    private final OpCode[] opcodeCBLookupTable;
+    private final OpCode[] opcodeDDLookupTable;
+    private final OpCode[] opcodeEDLookupTable;
+    private final OpCode[] opcodeFDLookupTable;
+
+    private OpCode[] currentLookupTable;
     private final State state;
     //
     // Fast references
@@ -22,6 +28,10 @@ public class Z80 {
 
     public Z80(Memory memory, State state) {
         opcodeLookupTable = new OpCode[0x100];
+        opcodeCBLookupTable = new OpCode[0x100];
+        opcodeDDLookupTable = new OpCode[0x100];
+        opcodeEDLookupTable = new OpCode[0x100];
+        opcodeFDLookupTable = new OpCode[0x100];
         this.memory = memory;
         this.state = state;
 
@@ -31,6 +41,7 @@ public class Z80 {
         this.opc = new OpcodeConditions(this.state, this.memory);
 
         fillOpcodeLookupTable();
+        currentLookupTable = opcodeLookupTable;
     }
 
     public void execute(int cycles) {
@@ -39,7 +50,9 @@ public class Z80 {
 
         while (cyclesBalance > 0) {
             OpCode opcode = readNextOpcode();
+            System.out.println(opcode);
             cyclesBalance -= opcode.execute();
+            System.out.println(state);
         }
 
     }
@@ -53,8 +66,17 @@ public class Z80 {
 
         if (!state.isHalted()) {
             final int opcode = memory.read(opcodeAddress);
-            return opcodeLookupTable[opcode];
+            OpCode instruction = currentLookupTable[opcode];
+
+            if (instruction == null && currentLookupTable != opcodeLookupTable) {
+                currentLookupTable = opcodeLookupTable;
+                return opcodeLookupTable[opcode];
+            }
+
+            currentLookupTable = opcodeLookupTable;
+            return instruction;
         } else {
+            currentLookupTable = opcodeLookupTable;
             return opcodeLookupTable[0x76]; // Keep executing halted instruction
         }
     }
@@ -76,7 +98,7 @@ public class Z80 {
         opcodeLookupTable[0x0C] = new Inc(state, opt.r(C));
         opcodeLookupTable[0x0D] = new Dec(state, opt.r(C));
         opcodeLookupTable[0x0E] = new Ld(state, opt.r(C), opt.n());
-        opcodeLookupTable[0x0E] = new RRC(state, opt.r(A), opt.r(A));
+        opcodeLookupTable[0x0F] = new RRC(state, opt.r(A), opt.r(A));
         opcodeLookupTable[0x10] = new DJNZ(state, opt.r(B), opt.n());
         opcodeLookupTable[0x11] = new Ld(state, opt.r(DE), opt.nn());
         opcodeLookupTable[0x12] = new Ld(state, opt.iRR(DE), opt.r(A));
@@ -253,24 +275,25 @@ public class Z80 {
         opcodeLookupTable[0xBD] = new Cp(state, opt.r(A), opt.r(L));
         opcodeLookupTable[0xBE] = new Cp(state, opt.r(A), opt.iRR(HL));
         opcodeLookupTable[0xBF] = new Cp(state, opt.r(A), opt.r(A));
-        opcodeLookupTable[0xC0] = new Ret(state, opc.nf(Flags.ZERO_FLAG), this.memory);
-		
+        opcodeLookupTable[0xC0] = new Ret(state, opc.nf(Flags.ZERO_FLAG), memory);
+        opcodeLookupTable[0xC1] = new Pop(state, opt.r(BC), memory);
+        opcodeLookupTable[0xC2] = new JP(state, opc.nf(Flags.ZERO_FLAG), opt.nn());
+        opcodeLookupTable[0xC3] = new JP(state, opc.t(), opt.nn());
+        opcodeLookupTable[0xC4] = new Call(state, opc.nf(Flags.ZERO_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xC5] = new Push(state, opt.r(BC), memory);
+        opcodeLookupTable[0xC6] = new Add(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xC7] = new RST(state, 0x00, memory);
+        opcodeLookupTable[0xC8] = new Ret(state, opc.f(Flags.ZERO_FLAG), memory);
+        opcodeLookupTable[0xC9] = new Ret(state, opc.t(), memory);
+        opcodeLookupTable[0xCA] = new JP(state, opc.f(Flags.ZERO_FLAG), opt.nn());
+        opcodeLookupTable[0xCB] = new FlipOpcode(state, this.opcodeCBLookupTable);
+        opcodeLookupTable[0xCC] = new Call(state, opc.f(Flags.ZERO_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xCD] = new Call(state, opc.t(), opt.nn(), memory);
+        opcodeLookupTable[0xCE] = new Adc(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xCF] = new RST(state, 0x08, memory);
+
+
 		/*
-C1	POP	BC	
-C2	JP	NZ,nn	
-C3	JP	nn	
-C4	CALL	NZ,nn	
-C5	PUSH	BC	
-C6	ADD	A,n	
-C7	RST	00H	
-C8	RET	Z	
-C9	RET		
-CA	JP	Z,nn	
-CB	#CB		
-CC	CALL	Z,nn	
-CD	CALL	nn	
-CE	ADC	A,n	
-CF	RST	08H	
 D0	RET	NC	
 D1	POP	DE	
 D2	JP	NC,nn	
@@ -322,6 +345,23 @@ FF	RST	38H
 
 		
 		 */
+    }
+
+    private class FlipOpcode extends AbstractOpCode {
+
+        private final OpCode[] table;
+
+        public FlipOpcode(State state, final OpCode[] table) {
+            super(state);
+            this.table = table;
+        }
+
+        @Override
+        public int execute() {
+            incrementPC();
+            Z80.this.currentLookupTable = table;
+            return 4;
+        }
     }
 
 

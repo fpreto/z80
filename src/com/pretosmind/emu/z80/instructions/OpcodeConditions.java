@@ -12,6 +12,9 @@ public class OpcodeConditions {
         this.state = state;
     }
 
+    /**
+     * Always true condition
+     */
     public Condition t() {
         return new ConditionAlwaysTrue();
     }

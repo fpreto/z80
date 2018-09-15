@@ -16,14 +16,14 @@ public class RegisterBank {
     private final Register iy;
 
     public RegisterBank() {
-        this.af = new Composed16BitRegister();
-        this.bc = new Composed16BitRegister();
-        this.de = new Composed16BitRegister();
-        this.hl = new Composed16BitRegister();
-        this._af = new Composed16BitRegister();
-        this._bc = new Composed16BitRegister();
-        this._de = new Composed16BitRegister();
-        this._hl = new Composed16BitRegister();
+        this.af = new Composed16BitRegister("A", "F");
+        this.bc = new Composed16BitRegister("B", "C");
+        this.de = new Composed16BitRegister("D", "E");
+        this.hl = new Composed16BitRegister("H", "L");
+        this._af = new Composed16BitRegister("A", "F");
+        this._bc = new Composed16BitRegister("B", "C");
+        this._de = new Composed16BitRegister("D", "E");
+        this._hl = new Composed16BitRegister("H", "L");
         this.pc = new Plain16BitRegister();
         this.sp = new Plain16BitRegister();
         this.ix = new Plain16BitRegister();
@@ -84,5 +84,19 @@ public class RegisterBank {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "AF=" + String.format("%04X", af.read()) +
+                " BC=" + String.format("%04X", bc.read()) +
+                " DE=" + String.format("%04X", de.read()) +
+                " HL=" + String.format("%04X", hl.read()) +
+                " AF'=" + String.format("%04X", _af.read()) +
+                " BC'=" + String.format("%04X", _bc.read()) +
+                " DE'=" + String.format("%04X", _de.read()) +
+                " HL'=" + String.format("%04X", _hl.read()) +
+                " PC=" + String.format("%04X", pc.read()) +
+                " SP=" + String.format("%04X", sp.read()) +
+                " IX=" + String.format("%04X", ix.read()) +
+                " IY=" + String.format("%04X", iy.read());
+    }
 }

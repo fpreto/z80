@@ -1,0 +1,12 @@
+
+; Test 8-bit loads
+
+Execute:
+    ld a, 01H
+    ld b, 23H
+    ld c, 45H
+    ld d, 67H
+    ld e, 89H
+    ld h, 0ABH
+    ld l, 0CDH
+    halt

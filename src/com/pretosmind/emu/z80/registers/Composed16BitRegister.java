@@ -7,9 +7,9 @@ public class Composed16BitRegister implements RegisterPair {
     private final Register high;
     private final Register low;
 
-    public Composed16BitRegister() {
-        this.high = new Plain8BitRegister();
-        this.low = new Plain8BitRegister();
+    public Composed16BitRegister(String h, String l) {
+        this.high = new Plain8BitRegister(h);
+        this.low = new Plain8BitRegister(l);
     }
 
     @Override

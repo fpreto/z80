@@ -1,0 +1,8 @@
+; Simple NOP tests
+
+Execute:
+    nop
+    nop
+    nop
+    halt
+

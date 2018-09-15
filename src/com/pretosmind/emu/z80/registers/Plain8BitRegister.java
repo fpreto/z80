@@ -5,6 +5,11 @@ import com.pretosmind.emu.z80.Z80Utils;
 public final class Plain8BitRegister implements Register {
 
     private int data;
+    private final String name;
+
+    public Plain8BitRegister(String name) {
+        this.name = name;
+    }
 
     @Override
     public int read() {
@@ -21,4 +26,8 @@ public final class Plain8BitRegister implements Register {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

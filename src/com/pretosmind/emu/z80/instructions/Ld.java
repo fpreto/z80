@@ -24,4 +24,8 @@ public class Ld extends AbstractOpCode {
         return 4 + target.cyclesCost() + source.cyclesCost();
     }
 
+    @Override
+    public String toString() {
+        return "LD " + target + "," + source;
+    }
 }
