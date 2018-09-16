@@ -49,6 +49,10 @@ public class Z80 {
         currentLookupTable = opcodeLookupTable;
     }
 
+    public void reset() {
+
+    }
+
     public void execute(int cycles) {
 
         cyclesBalance += cycles;
@@ -328,27 +332,25 @@ public class Z80 {
         opcodeLookupTable[0xED] = new FlipOpcode(state, this.opcodeEDLookupTable);
         opcodeLookupTable[0xEE] = new Xor(state, opt.r(A), opt.n());
         opcodeLookupTable[0xEF] = new RST(state, 0x28, memory);
+        opcodeLookupTable[0xF0] = new Ret(state, opc.nf(Flags.NEGATIVE_FLAG), memory);
+        opcodeLookupTable[0xF1] = new Pop(state, opt.r(AF), memory);
+        opcodeLookupTable[0xF2] = new JP(state, opc.nf(Flags.NEGATIVE_FLAG), opt.nn());
+        opcodeLookupTable[0xF3] = new DI(state);
+        opcodeLookupTable[0xF4] = new Call(state, opc.nf(Flags.NEGATIVE_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xF5] = new Push(state, opt.r(AF), memory);
+        opcodeLookupTable[0xF6] = new Or(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xF7] = new RST(state, 0x30, memory);
+        opcodeLookupTable[0xF8] = new Ret(state, opc.f(Flags.NEGATIVE_FLAG), memory);
+        opcodeLookupTable[0xF9] = new Ld(state, opt.r(SP), opt.r(HL));
+        opcodeLookupTable[0xFA] = new JP(state, opc.f(Flags.NEGATIVE_FLAG), opt.nn());
+        opcodeLookupTable[0xFB] = new EI(state);
+        opcodeLookupTable[0xFC] = new Call(state, opc.f(Flags.NEGATIVE_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xFD] = new FlipOpcode(state, this.opcodeFDLookupTable);
+        opcodeLookupTable[0xFE] = new Cp(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xFF] = new RST(state, 0x38, memory);
 
 
 		/*
-F0	RET	P	
-F1	POP	AF	
-F2	JP	P,nn	
-F3	DI		
-F4	CALL	P,nn	
-F5	PUSH	AF	
-F6	OR	n	
-F7	RST	30H	
-F8	RET	M	
-F9	LD	SP,HL	
-FA	JP	M,nn	
-FB	EI		
-FC	CALL	M,nn	
-FD	#FD		
-FE	CP	n	
-FF	RST	38H	
-
-		
 		 */
     }
 

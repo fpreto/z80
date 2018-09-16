@@ -2,9 +2,9 @@ package com.pretosmind.emu.z80.instructions;
 
 import com.pretosmind.emu.z80.State;
 
-public class Nop extends AbstractOpCode {
+public class EI extends AbstractOpCode {
 
-    public Nop(State state) {
+    public EI(State state) {
         super(state);
     }
 
@@ -12,11 +12,13 @@ public class Nop extends AbstractOpCode {
     public int execute() {
         incrementPC();
 
+        state.enableInterrupt();
+
         return 4;
     }
 
     @Override
     public String toString() {
-        return "NOP";
+        return "EI";
     }
 }
