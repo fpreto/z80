@@ -311,26 +311,26 @@ public class Z80 {
         opcodeLookupTable[0xDC] = new Call(state, opc.f(Flags.CARRY_FLAG), opt.nn(), memory);
         opcodeLookupTable[0xDD] = new FlipOpcode(state, this.opcodeDDLookupTable);
         opcodeLookupTable[0xDE] = new Sbc(state, opt.r(A), opt.n());
-        opcodeLookupTable[0xCF] = new RST(state, 0x18, memory);
+        opcodeLookupTable[0xDF] = new RST(state, 0x18, memory);
+        opcodeLookupTable[0xE0] = new Ret(state, opc.nf(Flags.PARITY_FLAG), memory);
+        opcodeLookupTable[0xE1] = new Pop(state, opt.r(HL), memory);
+        opcodeLookupTable[0xE2] = new JP(state, opc.nf(Flags.PARITY_FLAG), opt.nn());
+        opcodeLookupTable[0xE3] = new Ex(state, opt.iRR(SP), opt.r(HL));
+        opcodeLookupTable[0xE4] = new Call(state, opc.nf(Flags.PARITY_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xE5] = new Push(state, opt.r(HL), memory);
+        opcodeLookupTable[0xE6] = new And(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xE7] = new RST(state, 0x20, memory);
+        opcodeLookupTable[0xE8] = new Ret(state, opc.f(Flags.PARITY_FLAG), memory);
+        opcodeLookupTable[0xE9] = new JP(state, opc.t(), opt.iRR(HL));
+        opcodeLookupTable[0xEA] = new JP(state, opc.f(Flags.PARITY_FLAG), opt.nn());
+        opcodeLookupTable[0xEB] = new Ex(state, opt.r(DE), opt.r(HL));
+        opcodeLookupTable[0xEC] = new Call(state, opc.f(Flags.PARITY_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xED] = new FlipOpcode(state, this.opcodeEDLookupTable);
+        opcodeLookupTable[0xEE] = new Xor(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xEF] = new RST(state, 0x28, memory);
 
 
 		/*
-E0	RET	PO	
-E1	POP	HL	
-E2	JP	PO,nn	
-E3	EX	(SP),HL	
-E4	CALL	PO,nn	
-E5	PUSH	HL	
-E6	AND	n	
-E7	RST	20H	
-E8	RET	PE	
-E9	JP	(HL)	
-EA	JP	PE,nn	
-EB	EX	DE,HL	
-EC	CALL	PE,nn	
-ED	#ED		
-EE	XOR	n	
-EF	RST	28H	
 F0	RET	P	
 F1	POP	AF	
 F2	JP	P,nn	
