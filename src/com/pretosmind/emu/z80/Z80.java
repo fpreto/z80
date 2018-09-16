@@ -1,6 +1,7 @@
 package com.pretosmind.emu.z80;
 
 import com.pretosmind.emu.z80.instructions.*;
+import com.pretosmind.emu.z80.mmu.IO;
 import com.pretosmind.emu.z80.mmu.Memory;
 import com.pretosmind.emu.z80.registers.Flags;
 import com.pretosmind.emu.z80.registers.Register;
@@ -10,6 +11,8 @@ import static com.pretosmind.emu.z80.registers.RegisterName.*;
 public class Z80 {
 
     private final Memory memory;
+    private final IO io;
+
     private final OpCode[] opcodeLookupTable;
     private final OpCode[] opcodeCBLookupTable;
     private final OpCode[] opcodeDDLookupTable;
@@ -18,6 +21,7 @@ public class Z80 {
 
     private OpCode[] currentLookupTable;
     private final State state;
+
     //
     // Fast references
     //
@@ -26,13 +30,14 @@ public class Z80 {
     private final OpcodeConditions opc;
     private int cyclesBalance;
 
-    public Z80(Memory memory, State state) {
+    public Z80(Memory memory, IO io, State state) {
         opcodeLookupTable = new OpCode[0x100];
         opcodeCBLookupTable = new OpCode[0x100];
         opcodeDDLookupTable = new OpCode[0x100];
         opcodeEDLookupTable = new OpCode[0x100];
         opcodeFDLookupTable = new OpCode[0x100];
         this.memory = memory;
+        this.io = io;
         this.state = state;
 
         this.pc = state.getRegister(PC);
@@ -291,25 +296,25 @@ public class Z80 {
         opcodeLookupTable[0xCD] = new Call(state, opc.t(), opt.nn(), memory);
         opcodeLookupTable[0xCE] = new Adc(state, opt.r(A), opt.n());
         opcodeLookupTable[0xCF] = new RST(state, 0x08, memory);
+        opcodeLookupTable[0xD0] = new Ret(state, opc.nf(Flags.CARRY_FLAG), memory);
+        opcodeLookupTable[0xD1] = new Pop(state, opt.r(DE), memory);
+        opcodeLookupTable[0xD2] = new JP(state, opc.nf(Flags.CARRY_FLAG), opt.nn());
+        opcodeLookupTable[0xD3] = new Out(state, opt.n(), opt.r(A), io);
+        opcodeLookupTable[0xD4] = new Call(state, opc.nf(Flags.CARRY_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xD5] = new Push(state, opt.r(DE), memory);
+        opcodeLookupTable[0xD6] = new Sub(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xD7] = new RST(state, 0x10, memory);
+        opcodeLookupTable[0xD8] = new Ret(state, opc.f(Flags.CARRY_FLAG), memory);
+        opcodeLookupTable[0xD9] = new Exx(state);
+        opcodeLookupTable[0xDA] = new JP(state, opc.f(Flags.CARRY_FLAG), opt.nn());
+        opcodeLookupTable[0xDB] = new In(state, opt.r(A), opt.n(), io);
+        opcodeLookupTable[0xDC] = new Call(state, opc.f(Flags.CARRY_FLAG), opt.nn(), memory);
+        opcodeLookupTable[0xDD] = new FlipOpcode(state, this.opcodeDDLookupTable);
+        opcodeLookupTable[0xDE] = new Sbc(state, opt.r(A), opt.n());
+        opcodeLookupTable[0xCF] = new RST(state, 0x18, memory);
 
 
 		/*
-D0	RET	NC	
-D1	POP	DE	
-D2	JP	NC,nn	
-D3	OUT	(n),A	
-D4	CALL	NC,nn	
-D5	PUSH	DE	
-D6	SUB	n	
-D7	RST	10H	
-D8	RET	C	
-D9	EXX		
-DA	JP	C,nn	
-DB	IN	A,(n)	
-DC	CALL	C,nn	
-DD	#DD		
-DE	SBC	A,n	
-DF	RST	18H	
 E0	RET	PO	
 E1	POP	HL	
 E2	JP	PO,nn	

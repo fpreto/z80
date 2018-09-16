@@ -2,6 +2,7 @@ package com.pretosmind.emu.z80.instructions;
 
 import com.pretosmind.emu.z80.State;
 import com.pretosmind.emu.z80.registers.Register;
+import com.pretosmind.emu.z80.registers.RegisterName;
 import com.pretosmind.emu.z80.registers.RegisterUtils;
 
 import static com.pretosmind.emu.z80.registers.RegisterName.*;
@@ -43,6 +44,14 @@ public abstract class AbstractOpCode implements OpCode {
      */
     protected void setPC(int value) {
         pc.write(value);
+    }
+
+    protected Register getRegister(RegisterName name) {
+        return state.getRegister(name);
+    }
+
+    protected Register getRegisterAlternate(RegisterName name) {
+        return state.getRegisterAlternate(name);
     }
 
 }

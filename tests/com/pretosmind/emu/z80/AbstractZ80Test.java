@@ -20,6 +20,7 @@ public abstract class AbstractZ80Test {
 
     protected State state;
     protected MemoryTestHelper memory;
+    protected IOTestHelper io;
     protected Z80 z80;
 
     private int previousFlag;
@@ -28,8 +29,9 @@ public abstract class AbstractZ80Test {
     @Before
     public void setUp() throws Exception {
         this.memory = new MemoryTestHelper();
+        this.io = new IOTestHelper();
         this.state = new State();
-        this.z80 = new Z80(memory, state);
+        this.z80 = new Z80(memory, io, state);
         this.cycles = 0;
 
         previousFlag = state.getRegister(F).read();
