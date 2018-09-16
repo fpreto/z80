@@ -38,4 +38,8 @@ public final class Memory16BitReference implements OpcodeReference {
         return 3 + 3;
     }
 
+    @Override
+    public String toString() {
+        return "nnnn";
+    }
 }

@@ -29,4 +29,10 @@ public class ConditionFlag implements Condition {
         }
     }
 
+    @Override
+    public String toString() {
+
+        return ((negate) ?  "N" : "") + Flags.toString(flag);
+
+    }
 }

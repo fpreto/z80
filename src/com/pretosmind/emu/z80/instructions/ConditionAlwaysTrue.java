@@ -12,4 +12,8 @@ public class ConditionAlwaysTrue implements Condition {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
 }

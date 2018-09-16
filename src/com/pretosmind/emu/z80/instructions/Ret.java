@@ -31,4 +31,9 @@ public class Ret extends AbstractOpCode {
 
     }
 
+    @Override
+    public String toString() {
+        String conditionStr = condition.toString();
+        return "RET" + ((conditionStr.length() > 0) ? " " + conditionStr : "");
+    }
 }

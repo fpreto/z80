@@ -33,4 +33,8 @@ public final class IndirectMemory8BitReference implements OpcodeReference {
         return 3 + target.cyclesCost();
     }
 
+    @Override
+    public String toString() {
+        return "(" + target + ")";
+    }
 }

@@ -24,4 +24,9 @@ public class Inc16 extends AbstractOpCode {
         return 6 + target.cyclesCost() + target.cyclesCost();
     }
 
+    @Override
+    public String toString() {
+        return "INC " + target;
+    }
+
 }

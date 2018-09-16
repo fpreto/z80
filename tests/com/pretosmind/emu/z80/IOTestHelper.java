@@ -3,6 +3,7 @@ package com.pretosmind.emu.z80;
 import com.pretosmind.emu.z80.mmu.IO;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
@@ -13,6 +14,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class IOTestHelper implements IO {
 
+    private final HashSet<Integer> directPrintPorts = new HashSet<>();
     private final HashMap<Integer, LinkedList<Integer>> inQueues = new HashMap<>();
     private final HashMap<Integer, LinkedList<Integer>> outQueues = new HashMap<>();
 
@@ -29,8 +31,12 @@ public class IOTestHelper implements IO {
 
     @Override
     public void out(int port, int value) {
-        LinkedList<Integer> queue = getOutQueueForPort(port);
-        queue.addLast(value);
+        if (!directPrintPorts.contains(port)) {
+            LinkedList<Integer> queue = getOutQueueForPort(port);
+            queue.addLast(value);
+        } else {
+            System.out.print((char)value);
+        }
     }
 
     /**
@@ -82,6 +88,14 @@ public class IOTestHelper implements IO {
         assertEquals("Writen data in out is different", value, queueValue);
     }
 
+    /**
+     * Configure port to output directly to system out instead of queue for future assertion.
+     * @param port
+     */
+    public void printPort(int port) {
+        directPrintPorts.add(port);
+    }
+
     private LinkedList<Integer> getInQueueForPort(int port) {
         return inQueues.computeIfAbsent(port, key -> new LinkedList<>());
     }
@@ -89,6 +103,4 @@ public class IOTestHelper implements IO {
     private LinkedList<Integer> getOutQueueForPort(int port) {
         return outQueues.computeIfAbsent(port, key -> new LinkedList<>());
     }
-
-
 }

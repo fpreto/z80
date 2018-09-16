@@ -38,4 +38,8 @@ public class Composed16BitRegister implements RegisterPair {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return high.toString() + low.toString();
+    }
 }

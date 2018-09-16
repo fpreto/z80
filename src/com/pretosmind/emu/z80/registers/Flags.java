@@ -58,4 +58,36 @@ public class Flags {
         r.write(currentFlag | (value & flag));
     }
 
+    public final static String toString(int flag) {
+
+        StringBuilder sb = new StringBuilder();
+
+        if ((flag & CARRY_FLAG) == CARRY_FLAG)
+            sb.append('C');
+
+        if ((flag & NEGATIVE_FLAG) == NEGATIVE_FLAG)
+            sb.append('N');
+
+        if ((flag & PARITY_FLAG) == PARITY_FLAG)
+            sb.append('P');
+
+        if ((flag & X_FLAG) == X_FLAG)
+            sb.append('X');
+
+        if ((flag & HALF_CARRY_FLAG) == HALF_CARRY_FLAG)
+            sb.append('H');
+
+        if ((flag & Y_FLAG) == Y_FLAG)
+            sb.append('Y');
+
+        if ((flag & ZERO_FLAG) == ZERO_FLAG)
+            sb.append('Z');
+
+        if ((flag & SIGNIFICANT_FLAG) == SIGNIFICANT_FLAG)
+            sb.append('S');
+
+        return sb.toString();
+
+    }
+
 }

@@ -23,11 +23,11 @@ public final class OpcodeTargets {
     }
 
     public OpcodeReference iRR(RegisterName name) {
-        return new IndirectMemory8BitReference(state.getRegister(RegisterName.BC), memory);
+        return new IndirectMemory8BitReference(state.getRegister(name), memory);
     }
 
     public OpcodeReference iiRR(RegisterName name) {
-        return new IndirectMemory16BitReference(state.getRegister(RegisterName.BC), memory);
+        return new IndirectMemory16BitReference(state.getRegister(name), memory);
     }
 
     public OpcodeReference n() {

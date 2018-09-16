@@ -1,0 +1,74 @@
+
+; Constants
+CONSOLE_PORT: equ 000H
+END_OF_LINE: equ '\n'
+STR_TERMINATOR: equ '$'
+
+; Define Sections
+    org 000h
+TESTS: ds 8000H
+HELPER: ds 4000H
+
+    SECTION HELPER
+
+fn_stop:
+    halt                        ; halt
+    ret                         ; return / never called unless come back from halt
+
+fn_printhex:
+    ret
+
+fn_printch:
+    out (CONSOLE_PORT), a       ; print a to console
+    ret                         ; return
+
+fn_printstr: PROC               ; fn_printstr(HL -> pointer to string):
+    push AF                     ; Save AF
+    push HL                     ; Save HL
+loop:                           ; while *HL != '$'
+    ld a, (HL)                  ;   a = *HL
+    inc HL                      ;   HL++
+    cp STR_TERMINATOR           ;
+    jr Z, endloop               ;   print a
+    call fn_printch             ;
+    jr loop                     ;
+endloop:
+    pop HL                      ; restore HL
+    pop AF                      ; restore AF
+    ret                         ; return
+    ENDP
+
+
+fn_printregs:
+    push AF
+    push HL
+    ld HL, REG_STR
+
+    call fn_printstr
+
+
+    ld a, END_OF_LINE
+    call fn_printch
+    pop HL
+    pop AF
+    ret
+
+REG_STR: db "A:00 B:00 C:00 D:00 E:00 H:00 L:00$"
+
+    ENDS
+
+
+
+    SECTION TESTS
+main:
+    ld a, 01H
+    ld b, 23H
+    ld c, 45H
+    ld d, 67H
+    ld e, 89H
+    ld h, 0ABH
+    ld l, 0CDH
+    call fn_printregs
+    call fn_stop
+    ENDS
+

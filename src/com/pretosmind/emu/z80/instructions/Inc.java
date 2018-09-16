@@ -30,4 +30,8 @@ public class Inc extends AbstractOpCode {
         return 4 + target.cyclesCost() + target.cyclesCost();
     }
 
+    @Override
+    public String toString() {
+        return "INC " + target;
+    }
 }

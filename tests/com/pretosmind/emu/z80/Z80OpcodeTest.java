@@ -5,6 +5,12 @@ import static org.junit.Assert.assertEquals;
 
 public class Z80OpcodeTest extends AbstractZ80Test {
 
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        io.printPort(0);
+    }
+
     @org.junit.Test
     public void nopTest() {
         assemble("nop.z80");
@@ -14,10 +20,18 @@ public class Z80OpcodeTest extends AbstractZ80Test {
     }
 
     @org.junit.Test
-    public void nopLd() {
+    public void ldTest() {
         assemble("ld.z80");
         runUntilHalted();
         assertPC(0x0F);
+        assertAllRegisters(0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD);
+        assertFlagUnchanged();
+    }
+
+    @org.junit.Test
+    public void ldRRTest() {
+        assemble("ldRR.z80");
+        runUntilHalted();
         assertAllRegisters(0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD);
         assertFlagUnchanged();
     }

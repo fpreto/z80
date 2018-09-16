@@ -30,4 +30,9 @@ public class JR extends AbstractOpCode {
 
     }
 
+    @Override
+    public String toString() {
+        String conditionStr = condition.toString();
+        return "JR " + ((conditionStr.length() > 0) ? conditionStr + ", " : "") + target;
+    }
 }

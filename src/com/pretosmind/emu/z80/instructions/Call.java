@@ -37,6 +37,7 @@ public class Call extends AbstractOpCode {
 
     @Override
     public String toString() {
-        return "CALL " + condition + "," + target;
+        final String conditionStr = condition.toString();
+        return "CALL " + ((conditionStr.length() > 0) ? conditionStr + "," : "") + target;
     }
 }

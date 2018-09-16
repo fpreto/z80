@@ -34,4 +34,8 @@ public class Cp extends AbstractOpCode {
         return 4 + source.cyclesCost() + target.cyclesCost();
     }
 
+    @Override
+    public String toString() {
+        return "CP " + source;
+    }
 }
