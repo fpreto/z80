@@ -36,6 +36,14 @@ public class Z80OpcodeTest extends AbstractZ80Test {
         assertFlagUnchanged();
     }
 
+
+
+    @org.junit.Test
+    public void zexallTest() {
+        assemble("zexall.z80");
+        runUntilHalted();
+    }
+
 //    @Test
 //    public void ldBCTest() {
 //

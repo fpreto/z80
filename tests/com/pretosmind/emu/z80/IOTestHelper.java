@@ -36,6 +36,7 @@ public class IOTestHelper implements IO {
             queue.addLast(value);
         } else {
             System.out.print((char)value);
+            System.out.flush();
         }
     }
 

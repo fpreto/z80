@@ -4,11 +4,11 @@ import com.pretosmind.emu.z80.State;
 import com.pretosmind.emu.z80.Z80Utils;
 import com.pretosmind.emu.z80.registers.Flags;
 
-public class RLCA extends AbstractOpCode {
+public class RRCA extends AbstractOpCode {
 
     private final OpcodeReference target;
 
-    public RLCA(State state, OpcodeReference target) {
+    public RRCA(State state, OpcodeReference target) {
         super(state);
         this.target = target;
     }
@@ -19,8 +19,8 @@ public class RLCA extends AbstractOpCode {
         incrementPC();
 
         final int value = target.read();
-        final int bit = (value & 0x80) >>> 7;
-        final int result = Z80Utils.mask8bit(value << 1 | bit);
+        final int bit = (value & 0x01) << 7;
+        final int result = Z80Utils.mask8bit(value >>> 1 | bit);
         target.write(result);
 
         Flags.setFlag(flag, Flags.HALF_CARRY_FLAG, false);
@@ -32,7 +32,7 @@ public class RLCA extends AbstractOpCode {
 
     @Override
     public String toString() {
-        return "RLCA " + target;
+        return "RRCA " + target;
     }
 
 }

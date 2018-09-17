@@ -54,7 +54,7 @@ public final class Z80Utils {
      * @return
      */
     public final static int read16FromMemory(int address, Memory memory) {
-        return memory.read(address) | (memory.read(address + 1) << 8);
+        return memory.read(mask16bit(address)) | (memory.read(mask16bit(address + 1)) << 8);
     }
 
     /**
@@ -65,8 +65,8 @@ public final class Z80Utils {
      * @param memory  memory adapter
      */
     public final static void write16ToMemory(int address, int value, Memory memory) {
-        memory.write(address, Z80Utils.mask8bit(value));
-        memory.write(address + 1, Z80Utils.high8bits(value));
+        memory.write(mask16bit(address), Z80Utils.mask8bit(value));
+        memory.write(mask16bit(address + 1), Z80Utils.high8bits(value));
     }
 
     /**

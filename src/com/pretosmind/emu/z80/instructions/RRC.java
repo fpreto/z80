@@ -7,12 +7,10 @@ import com.pretosmind.emu.z80.registers.Flags;
 public class RRC extends AbstractOpCode {
 
     private final OpcodeReference target;
-    private final OpcodeReference source;
 
-    public RRC(State state, OpcodeReference target, OpcodeReference source) {
+    public RRC(State state, OpcodeReference target) {
         super(state);
         this.target = target;
-        this.source = source;
     }
 
     @Override
@@ -20,16 +18,23 @@ public class RRC extends AbstractOpCode {
 
         incrementPC();
 
-        final int value = source.read();
+        final int value = target.read();
         final int bit = (value & 0x01) << 7;
-        final int result = Z80Utils.mask8bit(value >>> 1 | bit);
+        final int result = Z80Utils.mask8bit(value >> 1 | bit);
         target.write(result);
 
         Flags.setFlag(flag, Flags.HALF_CARRY_FLAG, false);
         Flags.setFlag(flag, Flags.NEGATIVE_FLAG, false);
-        Flags.copyFrom(flag, Flags.CARRY_FLAG | Flags.Y_FLAG | Flags.X_FLAG, result);
+        Flags.setFlag(flag, Flags.PARITY_FLAG, Z80Utils.isEvenParity8bit(result));
+        Flags.setFlag(flag, Flags.CARRY_FLAG, (bit != 0));
+        Flags.copyFrom(flag, Flags.SIGNIFICANT_FLAG | Flags.Y_FLAG | Flags.X_FLAG, result);
 
-        return 7 + source.cyclesCost() + target.cyclesCost();
+        return 4 + target.cyclesCost() + target.cyclesCost();
+    }
+
+    @Override
+    public String toString() {
+        return "RLC " + target;
     }
 
 }

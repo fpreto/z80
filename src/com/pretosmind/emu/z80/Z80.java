@@ -5,7 +5,6 @@ import com.pretosmind.emu.z80.mmu.IO;
 import com.pretosmind.emu.z80.mmu.Memory;
 import com.pretosmind.emu.z80.registers.Flags;
 import com.pretosmind.emu.z80.registers.Register;
-import nl.grauw.glass.instructions.Rlc;
 
 import static com.pretosmind.emu.z80.registers.RegisterName.*;
 
@@ -30,6 +29,7 @@ public class Z80 {
     private final OpcodeTargets opt;
     private final OpcodeConditions opc;
     private int cyclesBalance;
+    private int previosInstruction;
 
     public Z80(Memory memory, IO io, State state) {
         opcodeLookupTable = new OpCode[0x100];
@@ -79,11 +79,13 @@ public class Z80 {
             OpCode instruction = currentLookupTable[opcode];
 
             if (instruction == null && currentLookupTable != opcodeLookupTable) {
+                System.out.println("Missing opcode. " + String.format("%02X %02X", previosInstruction, opcode));
                 currentLookupTable = opcodeLookupTable;
                 return opcodeLookupTable[opcode];
             }
 
             currentLookupTable = opcodeLookupTable;
+            previosInstruction = opcode;
             return instruction;
         } else {
             currentLookupTable = opcodeLookupTable;
@@ -100,7 +102,7 @@ public class Z80 {
         opcodeLookupTable[0x04] = new Inc(state, opt.r(B));
         opcodeLookupTable[0x05] = new Dec(state, opt.r(B));
         opcodeLookupTable[0x06] = new Ld(state, opt.r(B), opt.n());
-        opcodeLookupTable[0x07] = new RLCA(state, opt.r(A), opt.r(A));
+        opcodeLookupTable[0x07] = new RLCA(state, opt.r(A));
         opcodeLookupTable[0x08] = new Ex(state, opt.r(AF), opt._r(AF));
         opcodeLookupTable[0x09] = new Add16(state, opt.r(HL), opt.r(BC));
         opcodeLookupTable[0x0A] = new Ld(state, opt.r(A), opt.iRR(BC));
@@ -108,7 +110,7 @@ public class Z80 {
         opcodeLookupTable[0x0C] = new Inc(state, opt.r(C));
         opcodeLookupTable[0x0D] = new Dec(state, opt.r(C));
         opcodeLookupTable[0x0E] = new Ld(state, opt.r(C), opt.n());
-        opcodeLookupTable[0x0F] = new RRC(state, opt.r(A), opt.r(A));
+        opcodeLookupTable[0x0F] = new RRCA(state, opt.r(A));
         opcodeLookupTable[0x10] = new DJNZ(state, opt.r(B), opt.n());
         opcodeLookupTable[0x11] = new Ld(state, opt.r(DE), opt.nn());
         opcodeLookupTable[0x12] = new Ld(state, opt.iRR(DE), opt.r(A));
@@ -116,7 +118,7 @@ public class Z80 {
         opcodeLookupTable[0x14] = new Inc(state, opt.r(D));
         opcodeLookupTable[0x15] = new Dec(state, opt.r(D));
         opcodeLookupTable[0x16] = new Ld(state, opt.r(D), opt.n());
-        opcodeLookupTable[0x17] = new RL(state, opt.r(A));
+        opcodeLookupTable[0x17] = new RLA(state, opt.r(A));
         opcodeLookupTable[0x18] = new JR(state, opc.t(), opt.n());
         opcodeLookupTable[0x19] = new Add16(state, opt.r(HL), opt.r(DE));
         opcodeLookupTable[0x1A] = new Ld(state, opt.r(A), opt.iRR(DE));
@@ -354,26 +356,25 @@ public class Z80 {
         //
         // CB Instructions
         //
-        //opcodeCBLookupTable[0x00] = ;
+        opcodeCBLookupTable[0x00] = new RLC(state, opt.r(B));
+        opcodeCBLookupTable[0x01] = new RLC(state, opt.r(C));
+        opcodeCBLookupTable[0x02] = new RLC(state, opt.r(D));
+        opcodeCBLookupTable[0x03] = new RLC(state, opt.r(E));
+        opcodeCBLookupTable[0x04] = new RLC(state, opt.r(H));
+        opcodeCBLookupTable[0x05] = new RLC(state, opt.r(L));
+        opcodeCBLookupTable[0x06] = new RLC(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x07] = new RLC(state, opt.r(A));
+        opcodeCBLookupTable[0x08] = new RRC(state, opt.r(B));
+        opcodeCBLookupTable[0x09] = new RRC(state, opt.r(C));
+        opcodeCBLookupTable[0x0A] = new RRC(state, opt.r(D));
+        opcodeCBLookupTable[0x0B] = new RRC(state, opt.r(E));
+        opcodeCBLookupTable[0x0C] = new RRC(state, opt.r(H));
+        opcodeCBLookupTable[0x0D] = new RRC(state, opt.r(L));
+        opcodeCBLookupTable[0x0E] = new RRC(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x0F] = new RRC(state, opt.r(A));
 		/*
 
 		CB:
-00	RLC	B
-01	RLC	C
-02	RLC	D
-03	RLC	E
-04	RLC	H
-05	RLC	L
-06	RLC	(HL)
-07	RLC	A
-08	RRC	B
-09	RRC	C
-0A	RRC	D
-0B	RRC	E
-0C	RRC	H
-0D	RRC	L
-0E	RRC	(HL)
-0F	RRC	A
 10	RL	B
 11	RL	C
 12	RL	D
