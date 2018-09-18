@@ -126,7 +126,7 @@ public class Z80 {
         opcodeLookupTable[0x1C] = new Inc(state, opt.r(E));
         opcodeLookupTable[0x1D] = new Dec(state, opt.r(E));
         opcodeLookupTable[0x1E] = new Ld(state, opt.r(E), opt.n());
-        opcodeLookupTable[0x1F] = new RR(state, opt.r(A));
+        opcodeLookupTable[0x1F] = new RRA(state, opt.r(A));
         opcodeLookupTable[0x20] = new JR(state, opc.nf(Flags.ZERO_FLAG), opt.n());
         opcodeLookupTable[0x21] = new Ld(state, opt.r(HL), opt.nn());
         opcodeLookupTable[0x22] = new Ld(state, opt.iinn(), opt.r(HL));
@@ -372,33 +372,41 @@ public class Z80 {
         opcodeCBLookupTable[0x0D] = new RRC(state, opt.r(L));
         opcodeCBLookupTable[0x0E] = new RRC(state, opt.iRR(HL));
         opcodeCBLookupTable[0x0F] = new RRC(state, opt.r(A));
+        opcodeCBLookupTable[0x10] = new RL(state, opt.r(B));
+        opcodeCBLookupTable[0x11] = new RL(state, opt.r(C));
+        opcodeCBLookupTable[0x12] = new RL(state, opt.r(D));
+        opcodeCBLookupTable[0x13] = new RL(state, opt.r(E));
+        opcodeCBLookupTable[0x14] = new RL(state, opt.r(H));
+        opcodeCBLookupTable[0x15] = new RL(state, opt.r(L));
+        opcodeCBLookupTable[0x16] = new RL(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x17] = new RL(state, opt.r(A));
+        opcodeCBLookupTable[0x18] = new RR(state, opt.r(B));
+        opcodeCBLookupTable[0x19] = new RR(state, opt.r(C));
+        opcodeCBLookupTable[0x1A] = new RR(state, opt.r(D));
+        opcodeCBLookupTable[0x1B] = new RR(state, opt.r(E));
+        opcodeCBLookupTable[0x1C] = new RR(state, opt.r(H));
+        opcodeCBLookupTable[0x1D] = new RR(state, opt.r(L));
+        opcodeCBLookupTable[0x1E] = new RR(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x1F] = new RR(state, opt.r(A));
+        opcodeCBLookupTable[0x20] = new SLA(state, opt.r(B));
+        opcodeCBLookupTable[0x21] = new SLA(state, opt.r(C));
+        opcodeCBLookupTable[0x22] = new SLA(state, opt.r(D));
+        opcodeCBLookupTable[0x23] = new SLA(state, opt.r(E));
+        opcodeCBLookupTable[0x24] = new SLA(state, opt.r(H));
+        opcodeCBLookupTable[0x25] = new SLA(state, opt.r(L));
+        opcodeCBLookupTable[0x26] = new SLA(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x27] = new SLA(state, opt.r(A));
+        opcodeCBLookupTable[0x28] = new SRA(state, opt.r(B));
+        opcodeCBLookupTable[0x29] = new SRA(state, opt.r(C));
+        opcodeCBLookupTable[0x2A] = new SRA(state, opt.r(D));
+        opcodeCBLookupTable[0x2B] = new SRA(state, opt.r(E));
+        opcodeCBLookupTable[0x2C] = new SRA(state, opt.r(H));
+        opcodeCBLookupTable[0x2D] = new SRA(state, opt.r(L));
+        opcodeCBLookupTable[0x2E] = new SRA(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x2F] = new SRA(state, opt.r(A));
 		/*
 
 		CB:
-10	RL	B
-11	RL	C
-12	RL	D
-13	RL	E
-14	RL	H
-15	RL	L
-16	RL	(HL)
-17	RL	A
-18	RR	B
-19	RR	C
-1A	RR	D
-1B	RR	E
-1C	RR	H
-1D	RR	L
-1E	RR	(HL)
-1F	RR	A
-20	SLA	B
-21	SLA	C
-22	SLA	D
-23	SLA	E
-24	SLA	H
-25	SLA	L
-26	SLA	(HL)
-27	SLA	A
 28	SRA	B
 29	SRA	C
 2A	SRA	D
