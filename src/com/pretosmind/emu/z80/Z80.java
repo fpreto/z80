@@ -404,226 +404,217 @@ public class Z80 {
         opcodeCBLookupTable[0x2D] = new SRA(state, opt.r(L));
         opcodeCBLookupTable[0x2E] = new SRA(state, opt.iRR(HL));
         opcodeCBLookupTable[0x2F] = new SRA(state, opt.r(A));
-		/*
+        opcodeCBLookupTable[0x30] = new SLL(state, opt.r(B));
+        opcodeCBLookupTable[0x31] = new SLL(state, opt.r(C));
+        opcodeCBLookupTable[0x32] = new SLL(state, opt.r(D));
+        opcodeCBLookupTable[0x33] = new SLL(state, opt.r(E));
+        opcodeCBLookupTable[0x34] = new SLL(state, opt.r(H));
+        opcodeCBLookupTable[0x35] = new SLL(state, opt.r(L));
+        opcodeCBLookupTable[0x36] = new SLL(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x37] = new SLL(state, opt.r(A));
+        opcodeCBLookupTable[0x38] = new SRL(state, opt.r(B));
+        opcodeCBLookupTable[0x39] = new SRL(state, opt.r(C));
+        opcodeCBLookupTable[0x3A] = new SRL(state, opt.r(D));
+        opcodeCBLookupTable[0x3B] = new SRL(state, opt.r(E));
+        opcodeCBLookupTable[0x3C] = new SRL(state, opt.r(H));
+        opcodeCBLookupTable[0x3D] = new SRL(state, opt.r(L));
+        opcodeCBLookupTable[0x3E] = new SRL(state, opt.iRR(HL));
+        opcodeCBLookupTable[0x3F] = new SRL(state, opt.r(A));
+        opcodeCBLookupTable[0x40] = new BIT(state, opt.r(B), 0);
+        opcodeCBLookupTable[0x41] = new BIT(state, opt.r(C), 0);
+        opcodeCBLookupTable[0x42] = new BIT(state, opt.r(D), 0);
+        opcodeCBLookupTable[0x43] = new BIT(state, opt.r(E), 0);
+        opcodeCBLookupTable[0x44] = new BIT(state, opt.r(H), 0);
+        opcodeCBLookupTable[0x45] = new BIT(state, opt.r(L), 0);
+        opcodeCBLookupTable[0x46] = new BIT(state, opt.iRR(HL), 0);
+        opcodeCBLookupTable[0x47] = new BIT(state, opt.r(A), 0);
+        opcodeCBLookupTable[0x48] = new BIT(state, opt.r(B), 1);
+        opcodeCBLookupTable[0x49] = new BIT(state, opt.r(C), 1);
+        opcodeCBLookupTable[0x4A] = new BIT(state, opt.r(D), 1);
+        opcodeCBLookupTable[0x4B] = new BIT(state, opt.r(E), 1);
+        opcodeCBLookupTable[0x4C] = new BIT(state, opt.r(H), 1);
+        opcodeCBLookupTable[0x4D] = new BIT(state, opt.r(L), 1);
+        opcodeCBLookupTable[0x4E] = new BIT(state, opt.iRR(HL), 1);
+        opcodeCBLookupTable[0x4F] = new BIT(state, opt.r(A), 1);
+        opcodeCBLookupTable[0x50] = new BIT(state, opt.r(B), 2);
+        opcodeCBLookupTable[0x51] = new BIT(state, opt.r(C), 2);
+        opcodeCBLookupTable[0x52] = new BIT(state, opt.r(D), 2);
+        opcodeCBLookupTable[0x53] = new BIT(state, opt.r(E), 2);
+        opcodeCBLookupTable[0x54] = new BIT(state, opt.r(H), 2);
+        opcodeCBLookupTable[0x55] = new BIT(state, opt.r(L), 2);
+        opcodeCBLookupTable[0x56] = new BIT(state, opt.iRR(HL), 2);
+        opcodeCBLookupTable[0x57] = new BIT(state, opt.r(A), 2);
+        opcodeCBLookupTable[0x58] = new BIT(state, opt.r(B), 3);
+        opcodeCBLookupTable[0x59] = new BIT(state, opt.r(C), 3);
+        opcodeCBLookupTable[0x5A] = new BIT(state, opt.r(D), 3);
+        opcodeCBLookupTable[0x5B] = new BIT(state, opt.r(E), 3);
+        opcodeCBLookupTable[0x5C] = new BIT(state, opt.r(H), 3);
+        opcodeCBLookupTable[0x5D] = new BIT(state, opt.r(L), 3);
+        opcodeCBLookupTable[0x5E] = new BIT(state, opt.iRR(HL), 3);
+        opcodeCBLookupTable[0x5F] = new BIT(state, opt.r(A), 3);
+        opcodeCBLookupTable[0x60] = new BIT(state, opt.r(B), 4);
+        opcodeCBLookupTable[0x61] = new BIT(state, opt.r(C), 4);
+        opcodeCBLookupTable[0x62] = new BIT(state, opt.r(D), 4);
+        opcodeCBLookupTable[0x63] = new BIT(state, opt.r(E), 4);
+        opcodeCBLookupTable[0x64] = new BIT(state, opt.r(H), 4);
+        opcodeCBLookupTable[0x65] = new BIT(state, opt.r(L), 4);
+        opcodeCBLookupTable[0x66] = new BIT(state, opt.iRR(HL), 4);
+        opcodeCBLookupTable[0x67] = new BIT(state, opt.r(A), 4);
+        opcodeCBLookupTable[0x68] = new BIT(state, opt.r(B), 5);
+        opcodeCBLookupTable[0x69] = new BIT(state, opt.r(C), 5);
+        opcodeCBLookupTable[0x6A] = new BIT(state, opt.r(D), 5);
+        opcodeCBLookupTable[0x6B] = new BIT(state, opt.r(E), 5);
+        opcodeCBLookupTable[0x6C] = new BIT(state, opt.r(H), 5);
+        opcodeCBLookupTable[0x6D] = new BIT(state, opt.r(L), 5);
+        opcodeCBLookupTable[0x6E] = new BIT(state, opt.iRR(HL), 5);
+        opcodeCBLookupTable[0x6F] = new BIT(state, opt.r(A), 5);
+        opcodeCBLookupTable[0x70] = new BIT(state, opt.r(B), 6);
+        opcodeCBLookupTable[0x71] = new BIT(state, opt.r(C), 6);
+        opcodeCBLookupTable[0x72] = new BIT(state, opt.r(D), 6);
+        opcodeCBLookupTable[0x73] = new BIT(state, opt.r(E), 6);
+        opcodeCBLookupTable[0x74] = new BIT(state, opt.r(H), 6);
+        opcodeCBLookupTable[0x75] = new BIT(state, opt.r(L), 6);
+        opcodeCBLookupTable[0x76] = new BIT(state, opt.iRR(HL), 6);
+        opcodeCBLookupTable[0x77] = new BIT(state, opt.r(A), 6);
+        opcodeCBLookupTable[0x78] = new BIT(state, opt.r(B), 7);
+        opcodeCBLookupTable[0x79] = new BIT(state, opt.r(C), 7);
+        opcodeCBLookupTable[0x7A] = new BIT(state, opt.r(D), 7);
+        opcodeCBLookupTable[0x7B] = new BIT(state, opt.r(E), 7);
+        opcodeCBLookupTable[0x7C] = new BIT(state, opt.r(H), 7);
+        opcodeCBLookupTable[0x7D] = new BIT(state, opt.r(L), 7);
+        opcodeCBLookupTable[0x7E] = new BIT(state, opt.iRR(HL), 7);
+        opcodeCBLookupTable[0x7F] = new BIT(state, opt.r(A), 7);
+        opcodeCBLookupTable[0x80] = new RES(state, opt.r(B), 0);
+        opcodeCBLookupTable[0x81] = new RES(state, opt.r(C), 0);
+        opcodeCBLookupTable[0x82] = new RES(state, opt.r(D), 0);
+        opcodeCBLookupTable[0x83] = new RES(state, opt.r(E), 0);
+        opcodeCBLookupTable[0x84] = new RES(state, opt.r(H), 0);
+        opcodeCBLookupTable[0x85] = new RES(state, opt.r(L), 0);
+        opcodeCBLookupTable[0x86] = new RES(state, opt.iRR(HL), 0);
+        opcodeCBLookupTable[0x87] = new RES(state, opt.r(A), 0);
+        opcodeCBLookupTable[0x88] = new RES(state, opt.r(B), 1);
+        opcodeCBLookupTable[0x89] = new RES(state, opt.r(C), 1);
+        opcodeCBLookupTable[0x8A] = new RES(state, opt.r(D), 1);
+        opcodeCBLookupTable[0x8B] = new RES(state, opt.r(E), 1);
+        opcodeCBLookupTable[0x8C] = new RES(state, opt.r(H), 1);
+        opcodeCBLookupTable[0x8D] = new RES(state, opt.r(L), 1);
+        opcodeCBLookupTable[0x8E] = new RES(state, opt.iRR(HL), 1);
+        opcodeCBLookupTable[0x8F] = new RES(state, opt.r(A), 1);
+        opcodeCBLookupTable[0x90] = new RES(state, opt.r(B), 2);
+        opcodeCBLookupTable[0x91] = new RES(state, opt.r(C), 2);
+        opcodeCBLookupTable[0x92] = new RES(state, opt.r(D), 2);
+        opcodeCBLookupTable[0x93] = new RES(state, opt.r(E), 2);
+        opcodeCBLookupTable[0x94] = new RES(state, opt.r(H), 2);
+        opcodeCBLookupTable[0x95] = new RES(state, opt.r(L), 2);
+        opcodeCBLookupTable[0x96] = new RES(state, opt.iRR(HL), 2);
+        opcodeCBLookupTable[0x97] = new RES(state, opt.r(A), 2);
+        opcodeCBLookupTable[0x98] = new RES(state, opt.r(B), 3);
+        opcodeCBLookupTable[0x99] = new RES(state, opt.r(C), 3);
+        opcodeCBLookupTable[0x9A] = new RES(state, opt.r(D), 3);
+        opcodeCBLookupTable[0x9B] = new RES(state, opt.r(E), 3);
+        opcodeCBLookupTable[0x9C] = new RES(state, opt.r(H), 3);
+        opcodeCBLookupTable[0x9D] = new RES(state, opt.r(L), 3);
+        opcodeCBLookupTable[0x9E] = new RES(state, opt.iRR(HL), 3);
+        opcodeCBLookupTable[0x9F] = new RES(state, opt.r(A), 3);
+        opcodeCBLookupTable[0xA0] = new RES(state, opt.r(B), 4);
+        opcodeCBLookupTable[0xA1] = new RES(state, opt.r(C), 4);
+        opcodeCBLookupTable[0xA2] = new RES(state, opt.r(D), 4);
+        opcodeCBLookupTable[0xA3] = new RES(state, opt.r(E), 4);
+        opcodeCBLookupTable[0xA4] = new RES(state, opt.r(H), 4);
+        opcodeCBLookupTable[0xA5] = new RES(state, opt.r(L), 4);
+        opcodeCBLookupTable[0xA6] = new RES(state, opt.iRR(HL), 4);
+        opcodeCBLookupTable[0xA7] = new RES(state, opt.r(A), 4);
+        opcodeCBLookupTable[0xA8] = new RES(state, opt.r(B), 5);
+        opcodeCBLookupTable[0xA9] = new RES(state, opt.r(C), 5);
+        opcodeCBLookupTable[0xAA] = new RES(state, opt.r(D), 5);
+        opcodeCBLookupTable[0xAB] = new RES(state, opt.r(E), 5);
+        opcodeCBLookupTable[0xAC] = new RES(state, opt.r(H), 5);
+        opcodeCBLookupTable[0xAD] = new RES(state, opt.r(L), 5);
+        opcodeCBLookupTable[0xAE] = new RES(state, opt.iRR(HL), 5);
+        opcodeCBLookupTable[0xAF] = new RES(state, opt.r(A), 5);
+        opcodeCBLookupTable[0xB0] = new RES(state, opt.r(B), 6);
+        opcodeCBLookupTable[0xB1] = new RES(state, opt.r(C), 6);
+        opcodeCBLookupTable[0xB2] = new RES(state, opt.r(D), 6);
+        opcodeCBLookupTable[0xB3] = new RES(state, opt.r(E), 6);
+        opcodeCBLookupTable[0xB4] = new RES(state, opt.r(H), 6);
+        opcodeCBLookupTable[0xB5] = new RES(state, opt.r(L), 6);
+        opcodeCBLookupTable[0xB6] = new RES(state, opt.iRR(HL), 6);
+        opcodeCBLookupTable[0xB7] = new RES(state, opt.r(A), 6);
+        opcodeCBLookupTable[0xB8] = new RES(state, opt.r(B), 7);
+        opcodeCBLookupTable[0xB9] = new RES(state, opt.r(C), 7);
+        opcodeCBLookupTable[0xBA] = new RES(state, opt.r(D), 7);
+        opcodeCBLookupTable[0xBB] = new RES(state, opt.r(E), 7);
+        opcodeCBLookupTable[0xBC] = new RES(state, opt.r(H), 7);
+        opcodeCBLookupTable[0xBD] = new RES(state, opt.r(L), 7);
+        opcodeCBLookupTable[0xBE] = new RES(state, opt.iRR(HL), 7);
+        opcodeCBLookupTable[0xBF] = new RES(state, opt.r(A), 7);
 
-		CB:
-28	SRA	B
-29	SRA	C
-2A	SRA	D
-2B	SRA	E
-2C	SRA	H
-2D	SRA	L
-2E	SRA	(HL)
-2F	SRA	A
-30
-31
-32
-33
-34
-35
-36
-37
-38	SRL	B
-39	SRL	C
-3A	SRL	D
-3B	SRL	E
-3C	SRL	H
-3D	SRL	L
-3E	SRL	(HL)
-3F	SRL	A
-40	BIT	0,B
-41	BIT	0,C
-42	BIT	0,D
-43	BIT	0,E
-44	BIT	0,H
-45	BIT	0,L
-46	BIT	0,(HL)
-47	BIT	0,A
-48	BIT	1,B
-49	BIT	1,C
-4A	BIT	1,D
-4B	BIT	1,E
-4C	BIT	1,H
-4D	BIT	1,L
-4E	BIT	1,(HL)
-4F	BIT	1,A
-50	BIT	2,B
-51	BIT	2,C
-52	BIT	2,D
-53	BIT	2,E
-54	BIT	2,H
-55	BIT	2,L
-56	BIT	2,(HL)
-57	BIT	2,A
-58	BIT	3,B
-59	BIT	3,C
-5A	BIT	3,D
-5B	BIT	3,E
-5C	BIT	3,H
-5D	BIT	3,L
-5E	BIT	3,(HL)
-5F	BIT	3,A
-60	BIT	4,B
-61	BIT	4,C
-62	BIT	4,D
-63	BIT	4,E
-64	BIT	4,H
-65	BIT	4,L
-66	BIT	4,(HL)
-67	BIT	4,A
-68	BIT	5,B
-69	BIT	5,C
-6A	BIT	5,D
-6B	BIT	5,E
-6C	BIT	5,H
-6D	BIT	5,L
-6E	BIT	5,(HL)
-6F	BIT	5,A
-70	BIT	6,B
-71	BIT	6,C
-72	BIT	6,D
-73	BIT	6,E
-74	BIT	6,H
-75	BIT	6,L
-76	BIT	6,(HL)
-77	BIT	6,A
-78	BIT	7,B
-79	BIT	7,C
-7A	BIT	7,D
-7B	BIT	7,E
-7C	BIT	7,H
-7D	BIT	7,L
-7E	BIT	7,(HL)
-7F	BIT	7,A
-80	RES	0,B
-81	RES	0,C
-82	RES	0,D
-83	RES	0,E
-84	RES	0,H
-85	RES	0,L
-86	RES	0,(HL)
-87	RES	0,A
-88	RES	1,B
-89	RES	1,C
-8A	RES	1,D
-8B	RES	1,E
-8C	RES	1,H
-8D	RES	1,L
-8E	RES	1,(HL)
-8F	RES	1,A
-90	RES	2,B
-91	RES	2,C
-92	RES	2,D
-93	RES	2,E
-94	RES	2,H
-95	RES	2,L
-96	RES	2,(HL)
-97	RES	2,A
-98	RES	3,B
-99	RES	3,C
-9A	RES	3,D
-9B	RES	3,E
-9C	RES	3,H
-9D	RES	3,L
-9E	RES	3,(HL)
-9F	RES	3,A
-A0	RES	4,B
-A1	RES	4,C
-A2	RES	4,D
-A3	RES	4,E
-A4	RES	4,H
-A5	RES	4,L
-A6	RES	4,(HL)
-A7	RES	4,A
-A8	RES	5,B
-A9	RES	5,C
-AA	RES	5,D
-AB	RES	5,E
-AC	RES	5,H
-AD	RES	5,L
-AE	RES	5,(HL)
-AF	RES	5,A
-B0	RES	6,B
-B1	RES	6,C
-B2	RES	6,D
-B3	RES	6,E
-B4	RES	6,H
-B5	RES	6,L
-B6	RES	6,(HL)
-B7	RES	6,A
-B8	RES	7,B
-B9	RES	7,C
-BA	RES	7,D
-BB	RES	7,E
-BC	RES	7,H
-BD	RES	7,L
-BE	RES	7,(HL)
-BF	RES	7,A
-C0	SET	0,B
-C1	SET	0,C
-C2	SET	0,D
-C3	SET	0,E
-C4	SET	0,H
-C5	SET	0,L
-C6	SET	0,(HL)
-C7	SET	0,A
-C8	SET	1,B
-C9	SET	1,C
-CA	SET	1,D
-CB	SET	1,E
-CC	SET	1,H
-CD	SET	1,L
-CE	SET	1,(HL)
-CF	SET	1,A
-D0	SET	2,B
-D1	SET	2,C
-D2	SET	2,D
-D3	SET	2,E
-D4	SET	2,H
-D5	SET	2,L
-D6	SET	2,(HL)
-D7	SET	2,A
-D8	SET	3,B
-D9	SET	3,C
-DA	SET	3,D
-DB	SET	3,E
-DC	SET	3,H
-DD	SET	3,L
-DE	SET	3,(HL)
-DF	SET	3,A
-E0	SET	4,B
-E1	SET	4,C
-E2	SET	4,D
-E3	SET	4,E
-E4	SET	4,H
-E5	SET	4,L
-E6	SET	4,(HL)
-E7	SET	4,A
-E8	SET	5,B
-E9	SET	5,C
-EA	SET	5,D
-EB	SET	5,E
-EC	SET	5,H
-ED	SET	5,L
-EE	SET	5,(HL)
-EF	SET	5,A
-F0	SET	6,B
-F1	SET	6,C
-F2	SET	6,D
-F3	SET	6,E
-F4	SET	6,H
-F5	SET	6,L
-F6	SET	6,(HL)
-F7	SET	6,A
-F8	SET	7,B
-F9	SET	7,C
-FA	SET	7,D
-FB	SET	7,E
-FC	SET	7,H
-FD	SET	7,L
-FE	SET	7,(HL)
-FF	SET	7,A
-		 */
+
+        opcodeCBLookupTable[0xC0] = new SET(state, opt.r(B), 0);
+        opcodeCBLookupTable[0xC1] = new SET(state, opt.r(C), 0);
+        opcodeCBLookupTable[0xC2] = new SET(state, opt.r(D), 0);
+        opcodeCBLookupTable[0xC3] = new SET(state, opt.r(E), 0);
+        opcodeCBLookupTable[0xC4] = new SET(state, opt.r(H), 0);
+        opcodeCBLookupTable[0xC5] = new SET(state, opt.r(L), 0);
+        opcodeCBLookupTable[0xC6] = new SET(state, opt.iRR(HL), 0);
+        opcodeCBLookupTable[0xC7] = new SET(state, opt.r(A), 0);
+        opcodeCBLookupTable[0xC8] = new SET(state, opt.r(B), 1);
+        opcodeCBLookupTable[0xC9] = new SET(state, opt.r(C), 1);
+        opcodeCBLookupTable[0xCA] = new SET(state, opt.r(D), 1);
+        opcodeCBLookupTable[0xCB] = new SET(state, opt.r(E), 1);
+        opcodeCBLookupTable[0xCC] = new SET(state, opt.r(H), 1);
+        opcodeCBLookupTable[0xCD] = new SET(state, opt.r(L), 1);
+        opcodeCBLookupTable[0xCE] = new SET(state, opt.iRR(HL), 1);
+        opcodeCBLookupTable[0xCF] = new SET(state, opt.r(A), 1);
+        opcodeCBLookupTable[0xD0] = new SET(state, opt.r(B), 2);
+        opcodeCBLookupTable[0xD1] = new SET(state, opt.r(C), 2);
+        opcodeCBLookupTable[0xD2] = new SET(state, opt.r(D), 2);
+        opcodeCBLookupTable[0xD3] = new SET(state, opt.r(E), 2);
+        opcodeCBLookupTable[0xD4] = new SET(state, opt.r(H), 2);
+        opcodeCBLookupTable[0xD5] = new SET(state, opt.r(L), 2);
+        opcodeCBLookupTable[0xD6] = new SET(state, opt.iRR(HL), 2);
+        opcodeCBLookupTable[0xD7] = new SET(state, opt.r(A), 2);
+        opcodeCBLookupTable[0xD8] = new SET(state, opt.r(B), 3);
+        opcodeCBLookupTable[0xD9] = new SET(state, opt.r(C), 3);
+        opcodeCBLookupTable[0xDA] = new SET(state, opt.r(D), 3);
+        opcodeCBLookupTable[0xDB] = new SET(state, opt.r(E), 3);
+        opcodeCBLookupTable[0xDC] = new SET(state, opt.r(H), 3);
+        opcodeCBLookupTable[0xDD] = new SET(state, opt.r(L), 3);
+        opcodeCBLookupTable[0xDE] = new SET(state, opt.iRR(HL), 3);
+        opcodeCBLookupTable[0xDF] = new SET(state, opt.r(A), 3);
+        opcodeCBLookupTable[0xE0] = new SET(state, opt.r(B), 4);
+        opcodeCBLookupTable[0xE1] = new SET(state, opt.r(C), 4);
+        opcodeCBLookupTable[0xE2] = new SET(state, opt.r(D), 4);
+        opcodeCBLookupTable[0xE3] = new SET(state, opt.r(E), 4);
+        opcodeCBLookupTable[0xE4] = new SET(state, opt.r(H), 4);
+        opcodeCBLookupTable[0xE5] = new SET(state, opt.r(L), 4);
+        opcodeCBLookupTable[0xE6] = new SET(state, opt.iRR(HL), 4);
+        opcodeCBLookupTable[0xE7] = new SET(state, opt.r(A), 4);
+        opcodeCBLookupTable[0xE8] = new SET(state, opt.r(B), 5);
+        opcodeCBLookupTable[0xE9] = new SET(state, opt.r(C), 5);
+        opcodeCBLookupTable[0xEA] = new SET(state, opt.r(D), 5);
+        opcodeCBLookupTable[0xEB] = new SET(state, opt.r(E), 5);
+        opcodeCBLookupTable[0xEC] = new SET(state, opt.r(H), 5);
+        opcodeCBLookupTable[0xED] = new SET(state, opt.r(L), 5);
+        opcodeCBLookupTable[0xEE] = new SET(state, opt.iRR(HL), 5);
+        opcodeCBLookupTable[0xEF] = new SET(state, opt.r(A), 5);
+        opcodeCBLookupTable[0xF0] = new SET(state, opt.r(B), 6);
+        opcodeCBLookupTable[0xF1] = new SET(state, opt.r(C), 6);
+        opcodeCBLookupTable[0xF2] = new SET(state, opt.r(D), 6);
+        opcodeCBLookupTable[0xF3] = new SET(state, opt.r(E), 6);
+        opcodeCBLookupTable[0xF4] = new SET(state, opt.r(H), 6);
+        opcodeCBLookupTable[0xF5] = new SET(state, opt.r(L), 6);
+        opcodeCBLookupTable[0xF6] = new SET(state, opt.iRR(HL), 6);
+        opcodeCBLookupTable[0xF7] = new SET(state, opt.r(A), 6);
+        opcodeCBLookupTable[0xF8] = new SET(state, opt.r(B), 7);
+        opcodeCBLookupTable[0xF9] = new SET(state, opt.r(C), 7);
+        opcodeCBLookupTable[0xFA] = new SET(state, opt.r(D), 7);
+        opcodeCBLookupTable[0xFB] = new SET(state, opt.r(E), 7);
+        opcodeCBLookupTable[0xFC] = new SET(state, opt.r(H), 7);
+        opcodeCBLookupTable[0xFD] = new SET(state, opt.r(L), 7);
+        opcodeCBLookupTable[0xFE] = new SET(state, opt.iRR(HL), 7);
+        opcodeCBLookupTable[0xFF] = new SET(state, opt.r(A), 7);
+
     }
 
     private class FlipOpcode extends AbstractOpCode {
