@@ -615,6 +615,148 @@ public class Z80 {
         opcodeCBLookupTable[0xFE] = new SET(state, opt.iRR(HL), 7);
         opcodeCBLookupTable[0xFF] = new SET(state, opt.r(A), 7);
 
+        opcodeDDLookupTable[0x09] = new Add16(state, opt.r(IX), opt.r(BC));
+        opcodeDDLookupTable[0x19] = new Add16(state, opt.r(IX), opt.r(DE));
+        opcodeDDLookupTable[0x21] = new Ld(state, opt.r(IX), opt.nn());
+        opcodeDDLookupTable[0x22] = new Ld(state, opt.iinn(), opt.r(IX));
+        opcodeDDLookupTable[0x23] = new Inc16(state, opt.r(IX));
+        opcodeDDLookupTable[0x24] = new Inc(state, opt.r(IXH));
+        opcodeDDLookupTable[0x25] = new Dec(state, opt.r(IXH));
+        opcodeDDLookupTable[0x26] = new Ld(state, opt.r(IXH), opt.n());
+        opcodeDDLookupTable[0x29] = new Add16(state, opt.r(IX), opt.r(IX));
+        opcodeDDLookupTable[0x2A] = new Ld(state, opt.r(IX), opt.iinn());
+        opcodeDDLookupTable[0x2B] = new Dec16(state, opt.r(IX));
+        opcodeDDLookupTable[0x2C] = new Inc(state, opt.r(IXL));
+        opcodeDDLookupTable[0x2D] = new Dec(state, opt.r(IXL));
+        opcodeDDLookupTable[0x2E] = new Ld(state, opt.r(IXL), opt.n());
+        opcodeDDLookupTable[0x34] = new Inc(state, opt.iRRn(IX, true));
+        opcodeDDLookupTable[0x35] = new Dec(state, opt.iRRn(IX, true));
+        opcodeDDLookupTable[0x36] = new Ld(state, opt.iRRn(IX, false), opt.n());
+        opcodeDDLookupTable[0x39] = new Add16(state, opt.r(IX), opt.r(SP));
+        opcodeDDLookupTable[0x44] = new Ld(state, opt.r(B), opt.r(IXH));
+        opcodeDDLookupTable[0x45] = new Ld(state, opt.r(B), opt.r(IXL));
+        opcodeDDLookupTable[0x46] = new Ld(state, opt.r(B), opt.iRRn(IX, false));
+        opcodeDDLookupTable[0x4C] = new Ld(state, opt.r(C), opt.r(IXH));
+        opcodeDDLookupTable[0x4D] = new Ld(state, opt.r(C), opt.r(IXL));
+        opcodeDDLookupTable[0x4E] = new Ld(state, opt.r(C), opt.iRRn(IX, false));
+        opcodeDDLookupTable[0x54] = new Ld(state, opt.r(D), opt.r(IXH));
+        opcodeDDLookupTable[0x55] = new Ld(state, opt.r(D), opt.r(IXL));
+        opcodeDDLookupTable[0x56] = new Ld(state, opt.r(D), opt.iRRn(IX, false));
+        opcodeDDLookupTable[0x5C] = new Ld(state, opt.r(E), opt.r(IXH));
+        opcodeDDLookupTable[0x5D] = new Ld(state, opt.r(E), opt.r(IXL));
+        opcodeDDLookupTable[0x5E] = new Ld(state, opt.r(E), opt.iRRn(IX, false));
+        opcodeDDLookupTable[0x60] = new Ld(state, opt.r(IXH), opt.r(B));
+        opcodeDDLookupTable[0x61] = new Ld(state, opt.r(IXH), opt.r(C));
+        opcodeDDLookupTable[0x62] = new Ld(state, opt.r(IXH), opt.r(D));
+        opcodeDDLookupTable[0x63] = new Ld(state, opt.r(IXH), opt.r(E));
+        opcodeDDLookupTable[0x64] = new Ld(state, opt.r(IXH), opt.r(H));
+        opcodeDDLookupTable[0x65] = new Ld(state, opt.r(IXH), opt.r(L));
+        opcodeDDLookupTable[0x66] = new Ld(state, opt.r(IXH), opt.iRRn(IX, false));
+        opcodeDDLookupTable[0x67] = new Ld(state, opt.r(IXH), opt.r(A));
+        opcodeDDLookupTable[0x68] = new Ld(state, opt.r(IXL), opt.r(B));
+        opcodeDDLookupTable[0x69] = new Ld(state, opt.r(IXL), opt.r(C));
+        opcodeDDLookupTable[0x6A] = new Ld(state, opt.r(IXL), opt.r(D));
+        opcodeDDLookupTable[0x6B] = new Ld(state, opt.r(IXL), opt.r(E));
+        opcodeDDLookupTable[0x6C] = new Ld(state, opt.r(IXL), opt.r(H));
+        opcodeDDLookupTable[0x6D] = new Ld(state, opt.r(IXL), opt.r(L));
+        opcodeDDLookupTable[0x6E] = new Ld(state, opt.r(IXL), opt.iRRn(IX, false));
+        opcodeDDLookupTable[0x6F] = new Ld(state, opt.r(IXL), opt.r(A));
+
+        /*
+#DD (Be aware of missing opcodes in this list)
+70	LD	(IX+d),B
+71	LD	(IX+d),C
+72	LD	(IX+d),D
+73	LD	(IX+d),E
+74	LD	(IX+d),H
+75	LD	(IX+d),L
+76
+77	LD	(IX+d),A
+78
+79
+7A
+7B
+7C
+7D
+7E	LD	A,(IX+d)
+7F
+80
+81
+82
+83
+84
+85
+86	ADD	A,(IX+d)
+87
+88
+89
+8A
+8B
+8C
+8D
+8E	ADC	A,(IX+d)
+8F
+90
+91
+92
+93
+94
+95
+96	SUB	(IX+d)
+97
+98
+99
+9A
+9B
+9C
+9D
+9E	SBC	(IX+d)
+9F
+A0
+A1
+A2
+A3
+A4
+A5
+A6	AND	(IX+d)
+A7
+A8
+A9
+AA
+AB
+AC
+AD
+AE	XOR	(IX+d)
+AF
+B0
+B1
+B2
+B3
+B4
+B5
+B6	OR	(IX+d)
+B7
+B8
+B9
+BA
+BB
+BC
+BD
+BE	CP	(IX+d)
+BF
+C0
+C1
+C2
+C3
+C4
+C5
+C6
+C7
+C8
+C9
+CA
+         */
+
     }
 
     private class FlipOpcode extends AbstractOpCode {

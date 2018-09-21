@@ -26,6 +26,10 @@ public final class OpcodeTargets {
         return new IndirectMemory8BitReference(state.getRegister(name), memory);
     }
 
+    public OpcodeReference iRRn(RegisterName name, boolean rewindOnWrite) {
+        return new MemoryPlusRegister8BitReference(state.getRegister(RegisterName.PC), state.getRegister(name), memory, rewindOnWrite);
+    }
+
     public OpcodeReference iiRR(RegisterName name) {
         return new IndirectMemory16BitReference(state.getRegister(name), memory);
     }

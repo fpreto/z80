@@ -12,8 +12,8 @@ public class RegisterBank {
     private final RegisterPair _hl;
     private final Register pc;
     private final Register sp;
-    private final Register ix;
-    private final Register iy;
+    private final RegisterPair ix;
+    private final RegisterPair iy;
 
     public RegisterBank() {
         this.af = new Composed16BitRegister("A", "F");
@@ -26,8 +26,8 @@ public class RegisterBank {
         this._hl = new Composed16BitRegister("H", "L");
         this.pc = new Plain16BitRegister();
         this.sp = new Plain16BitRegister();
-        this.ix = new Plain16BitRegister();
-        this.iy = new Plain16BitRegister();
+        this.ix = new Composed16BitRegister("IXH", "IXL");
+        this.iy = new Composed16BitRegister("IYH", "IYL");
     }
 
     public Register get(RegisterName name) {
@@ -48,6 +48,14 @@ public class RegisterBank {
                 return this.hl.getHigh();
             case L:
                 return this.hl.getLow();
+            case IXH:
+                return this.ix.getHigh();
+            case IXL:
+                return this.ix.getLow();
+            case IYH:
+                return this.iy.getHigh();
+            case IYL:
+                return this.iy.getLow();
             case AF:
                 return this.af;
             case BC:
